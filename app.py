@@ -24,11 +24,11 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db = SQL("sqlite:///sleep.db")
 
 # Make sure API key is set
-if not os.environ.get("API_KEY"):
-    raise RuntimeError("API_KEY not set")
+#if not os.environ.get("API_KEY"):
+#    raise RuntimeError("API_KEY not set")
 
 
 @app.after_request
@@ -42,22 +42,19 @@ def after_request(response):
 
 @app.route("/")
 @login_required
-def index():
-    """Show portfolio of stocks"""
+def home():
     return apology("TODO")
 
 
-@app.route("/buy", methods=["GET", "POST"])
+@app.route("/wakeup", methods=["GET", "POST"])
 @login_required
-def buy():
-    """Buy shares of stock"""
+def wakeup():
     return apology("TODO")
 
 
-@app.route("/history")
+@app.route("/report", methods=["GET", "POST"])
 @login_required
-def history():
-    """Show history of transactions"""
+def report():
     return apology("TODO")
 
 
@@ -118,7 +115,39 @@ def quote():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    return apology("TODO")
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return apology("must provide username", 400)
+        
+        # Query database for existing usernames
+        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+
+        # Ensure username is unique
+        if len(rows) == 1:
+            return apology("username already in use", 400)
+
+        # Ensure password was submitted
+        if not request.form.get("password") or not request.form.get("confirmation"):
+            return apology("must provide password and confirmation", 400)
+
+        # Ensure passwords match
+        if request.form.get("password") != request.form.get("confirmation"):
+            return apology("passwords must match", 400)
+
+        # Store User's information
+        username = request.form.get("username")
+        hash = generate_password_hash(request.form.get("password"))
+        db.execute("INSERT INTO users (username, hash) VALUES(?,?)", username, hash)
+
+        # Redirect user to home page
+        return redirect("/login")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
