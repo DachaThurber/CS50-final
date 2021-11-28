@@ -1,5 +1,57 @@
+a {
+    color: #aaddee;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  nav {
+    position: fixed;
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+  }
+  
+  .nav-link {
+    font-family: "Quicksand", sans-serif;
+    margin-top: 3%;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px 20px;
+    position: relative;
+  }
+  
+  /*Idea from https://sharkcoder.com/visual/underline*/
+  a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: block;
+    background: none repeat scroll 0 0 transparent;
+    height: 2px;
+    width: 0;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  }
+  
+  /*Idea from https://sharkcoder.com/visual/underline*/
+  a:hover::after { 
+    width: 100%; 
+    left: 0; 
+  }
+
 nav .navbar-brand
 {
     font-size: xx-large;
     font-family: "Chalkduster", fantasy;
+}
+
+nav
+{
+    background-color: rgb(43, 43, 139);
+    padding-bottom: 5%;
 }
