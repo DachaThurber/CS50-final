@@ -23,7 +23,6 @@
     <body>
         <nav class="navbar navbar-expand-md navbar-dark">
             <div class="container-fluid" id="navbar">
-                <a class="navbar-brand" href="/">Snoozer</a>
                 <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -35,10 +34,12 @@
                             <li class="nav-item"><a class="nav-link" href="/Bedtime">Bedtime</a></li>
                             <li class="nav-item"><a class="nav-link" href="/Data">Data</a></li>
                         </ul>
+                            <a href="/" class="navbar-brand">Snoozer</a>
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                         </ul>
                     {% else %}
+                        <a href="/" class="navbar-brand">Snoozer</a>
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                             <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>

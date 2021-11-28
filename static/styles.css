@@ -50,6 +50,16 @@ nav .navbar-brand
     font-family: "Chalkduster", fantasy;
 }
 
+.navbar {
+    position: relative;
+}
+.navbar-brand {
+    position: absolute;
+    left: 50%;
+    margin-left: -70px !important;  /* 50% of your logo width */
+    display: block;
+}
+
 nav
 {
     background-color: rgb(43, 43, 139);
