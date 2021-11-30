@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Wakeup
+{% endblock %}
+
+{% block main %}
+<!--Courtesy of https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml-->
+<section class="recentNews">  
+    <div class="container">
+        <h2 class="letter-style">Your News Feed</h2>
+        <div class="row">
+        <div class="ct-blog col-sm-6 col-md-4">
+            <div class="inner">
+                <div class="ct-blog-content">
+                    <div class="ct-blog-date">
+                        <!-- Courtesy of https://stackoverflow.com/questions/1643320/get-month-name-from-date and https://www.arclab.com/en/kb/htmlcss/display-date-time-javascript-php-ssi.html-->
+                        <p>
+                            <span id="month"> </span>
+                            <strong id="day"> </strong>
+                        </p>
+                        <script>
+                            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                            const dateObj = new Date()
+                            const monthNumber = dateObj.getMonth()
+                            document.getElementById("day").innerHTML = dateObj.getDate()
+                            document.getElementById("month").innerHTML = monthNames[monthNumber]
+                        </script>
+                    </div>
+                    <h3 class="ct-blog-header"> New York Times </h3>
+                </div>
+            </div>
+        </div>
+        <div class="ct-blog col-sm-6 col-md-4">
+            <div class="inner">
+                <div class="ct-blog-content">
+                    <div class="ct-blog-date">
+                        <p>
+                            <span id="month1"> </span>
+                            <strong id="day1"> </strong>
+                        </p>
+                        <script>
+                            document.getElementById("day1").innerHTML = dateObj.getDate()
+                            document.getElementById("month1").innerHTML = monthNames[monthNumber]
+                        </script>
+                    </div>
+                    <h3 class="ct-blog-header"> BBC </h3>
+                </div>
+            </div>
+        </div>
+        <div class="ct-blog col-sm-6 col-md-4">
+            <div class="inner">
+                <div class="ct-blog-content">
+                    <div class="ct-blog-date">
+                        <p>
+                            <span id="month2"> </span>
+                            <strong id="day2"> </strong>
+                        </p>
+                        <script>
+                            document.getElementById("day2").innerHTML = dateObj.getDate()
+                            document.getElementById("month2").innerHTML = monthNames[monthNumber]
+                        </script>
+                    </div>
+                    <h3 class="ct-blog-header"> Wall Street Journal</h3>
+                </div>
+            </div>
+        </div>
+        <div class="btn-news btn-contests">
+            <a class="letter-style">VIEW ALL NEWS</a>
+        </div>
+    </div>
+  </section>
+{% endblock %}

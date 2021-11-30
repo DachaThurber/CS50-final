@@ -49,18 +49,42 @@ def home():
 @app.route("/wakeup", methods=["GET", "POST"])
 @login_required
 def wakeup():
-    return apology("TODO")
+    return render_template("wakeup.html")
 
 
 @app.route("/report", methods=["GET", "POST"])
 @login_required
 def report():
-    return apology("TODO")
+
+    if request.method == "POST":
+
+        date = request.form.get("date")
+        bedtime = request.form.get("bedtime")
+        wakeup = request.form.get("wakeup")
+        rating = request.form.get("rating")
+
+        # Ensure fields were submitted
+        if not date:
+            return apology("must provide date", 403)
+        if not bedtime:
+            return apology("must provide bedtime", 403)
+        if not wakeup:
+            return apology("must provide wakeup", 403)
+        if not rating:
+            return apology("must provide rating", 403)
+        
+        db.execute("INSERT INTO sleeplog(date, bedtime, wakeup, rating, user_id) VALUES (?, ?, ?, ?)", date, bedtime, wakeup, rating, session["user_id"])
+
+        return render_template("data.html")
+        
+    else:
+        return render_template("report.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
+
 
     # Forget any user_id
     session.clear()
