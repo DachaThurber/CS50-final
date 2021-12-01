@@ -5,69 +5,160 @@
 {% endblock %}
 
 {% block main %}
-<!--Courtesy of https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml-->
-<section class="recentNews">  
-    <div class="container">
-        <h2 class="letter-style">Your News Feed</h2>
-        <div class="row">
-        <div class="ct-blog col-sm-6 col-md-4">
-            <div class="inner">
-                <div class="ct-blog-content">
-                    <div class="ct-blog-date">
-                        <!-- Courtesy of https://stackoverflow.com/questions/1643320/get-month-name-from-date and https://www.arclab.com/en/kb/htmlcss/display-date-time-javascript-php-ssi.html-->
-                        <p>
-                            <span id="month"> </span>
-                            <strong id="day"> </strong>
-                        </p>
-                        <script>
-                            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-                            const dateObj = new Date()
-                            const monthNumber = dateObj.getMonth()
-                            document.getElementById("day").innerHTML = dateObj.getDate()
-                            document.getElementById("month").innerHTML = monthNames[monthNumber]
-                        </script>
+<!DOCTYPE html>
+<html lang="en"> 
+    <!-- Courtesy of https://enlight.nyc/projects/weather -->
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="style.css" />
+        <h1 class="header"> Good morning! </h1>
+    </head>
+    <body>
+        <div class="forecast">
+            <div class="ct-blog col-sm-6 col-md-4">
+                <div class="forecast">
+                    <div class="ct-blog-content">
+                        <h2 class="forecast-Text"> Your forecast: </h2>
+                        <h2 id="temperature" class="forecast-Text"></h2>
+                        <h2 id="description" class="forecast-Text"></h2>
+                        <p id="location" class="forecast-Text"></p>
                     </div>
-                    <h3 class="ct-blog-header"> New York Times </h3>
                 </div>
             </div>
         </div>
-        <div class="ct-blog col-sm-6 col-md-4">
-            <div class="inner">
-                <div class="ct-blog-content">
-                    <div class="ct-blog-date">
-                        <p>
-                            <span id="month1"> </span>
-                            <strong id="day1"> </strong>
-                        </p>
-                        <script>
-                            document.getElementById("day1").innerHTML = dateObj.getDate()
-                            document.getElementById("month1").innerHTML = monthNames[monthNumber]
-                        </script>
+        <br> <br>
+        <!--Courtesy of https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml-->
+        <section class="recentNews">  
+            <div class="container">
+                <h2 class="letter-style">Your News Feed</h2>
+                <div class="row">
+                <div class="ct-blog col-sm-6 col-md-4">
+                    <div class="inner">
+                        <a href = "https://www.nytimes.com/">
+                            <div class="ct-blog-content">
+                                <div class="ct-blog-date">
+                                    <!-- Courtesy of https://stackoverflow.com/questions/1643320/get-month-name-from-date and https://www.arclab.com/en/kb/htmlcss/display-date-time-javascript-php-ssi.html-->
+                                    <p>
+                                        <span id="month"> </span>
+                                        <strong id="day"> </strong>
+                                    </p>
+                                    <script>
+                                        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                                        const dateObj = new Date()
+                                        const monthNumber = dateObj.getMonth()
+                                        document.getElementById("day").innerHTML = dateObj.getDate()
+                                        document.getElementById("month").innerHTML = monthNames[monthNumber]
+                                    </script>
+                                </div>
+                                <h3 class="ct-blog-header"> New York Times </h3>
+                            </div>
+                        </a>
                     </div>
-                    <h3 class="ct-blog-header"> BBC </h3>
+                </div>
+                <div class="ct-blog col-sm-6 col-md-4">
+                    <div class="inner">
+                        <a href="https://www.bbc.com/">
+                            <div class="ct-blog-content">
+                                <div class="ct-blog-date">
+                                    <p>
+                                        <span id="month1"> </span>
+                                        <strong id="day1"> </strong>
+                                    </p>
+                                    <script>
+                                        document.getElementById("day1").innerHTML = dateObj.getDate()
+                                        document.getElementById("month1").innerHTML = monthNames[monthNumber]
+                                    </script>
+                                </div>
+                                <h3 class="ct-blog-header"> BBC </h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="ct-blog col-sm-6 col-md-4">
+                    <div class="inner">
+                        <a href="https://www.wsj.com/">
+                            <div class="ct-blog-content">
+                                <div class="ct-blog-date">
+                                    <p>
+                                        <span id="month2"> </span>
+                                        <strong id="day2"> </strong>
+                                    </p>
+                                    <script>
+                                        document.getElementById("day2").innerHTML = dateObj.getDate()
+                                        document.getElementById("month2").innerHTML = monthNames[monthNumber]
+                                    </script>
+                                </div>
+                                <h3 class="ct-blog-header"> Wall Street Journal</h3>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="ct-blog col-sm-6 col-md-4">
-            <div class="inner">
-                <div class="ct-blog-content">
-                    <div class="ct-blog-date">
-                        <p>
-                            <span id="month2"> </span>
-                            <strong id="day2"> </strong>
-                        </p>
-                        <script>
-                            document.getElementById("day2").innerHTML = dateObj.getDate()
-                            document.getElementById("month2").innerHTML = monthNames[monthNumber]
-                        </script>
-                    </div>
-                    <h3 class="ct-blog-header"> Wall Street Journal</h3>
-                </div>
-            </div>
-        </div>
-        <div class="btn-news btn-contests">
-            <a class="letter-style">VIEW ALL NEWS</a>
-        </div>
-    </div>
-  </section>
+        </section>
+    </body> 
+    <!-- Courtesy of https://enlight.nyc/projects/weather -->
+    <script>
+    
+        function getWeather() {
+
+            console.log("line 94");
+
+            // Sets each id in HTML to var
+            let temperature = document.getElementById("temperature");
+            let description = document.getElementById("description");
+            let location = document.getElementById("location");
+
+            // Create vars for weather API endpoint and API key
+            let api = "https://api.openweathermap.org/data/2.5/weather";
+            let apiKey = "b4510e04e6e50e28ce602a5419c0b351";
+
+            location.innerHTML = "Locating...";
+
+            // Call geolocation web API
+            navigator.geolocation.getCurrentPosition(success, error);
+
+            function success(position) {
+                console.log("success!! ")
+                // Save lat. and long.
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+
+                // Fetch info from Internet
+                let url =
+                    api +
+                    "?lat=" +
+                    latitude +
+                    "&lon=" +
+                    longitude +
+                    "&appid=" +
+                    apiKey +
+                    "&units=imperial";
+
+                // Fetch data
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Set innerHTMl tags to temperature, description, and location
+                        console.log(data);
+                        let temp = data.main.temp;
+                        temperature.innerHTML = temp + "° F";
+                        location.innerHTML =
+                            data.name + " (" + latitude + "°, " + longitude + "°)";
+                        description.innerHTML = data.weather[0].main;
+                    });
+            }
+
+            function error() {
+                location.innerHTML = "Unable to retrieve your location";
+            }
+            
+        }
+
+        getWeather()
+
+    </script>
+</html>
+
 {% endblock %}
+

@@ -15,6 +15,23 @@
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
   }
+
+  .forecast-Text{
+    color: white;
+    font-family: "Quicksand", sans-serif;
+    margin: auto;
+  }
+
+  .forecast {
+    background-color: rgb(43, 43, 139);
+    text-align: center;
+    transition: all 0.2s ease-in-out 0s;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    text-align: center;
+  }
   
   .nav-link {
     font-family: "Quicksand", sans-serif;
@@ -30,11 +47,21 @@
 
   .letter-style {
     font-family: "Quicksand", sans-serif;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #fff;
+    text-decoration: none;
+    display: inline-block;
     padding: 15px 20px;
     position: relative;
   }
+
+  .header {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 900;
+    color:rgb(43, 43, 139);
+  }
+
   
   /*Idea from https://sharkcoder.com/visual/underline*/
   a::after {
@@ -51,10 +78,10 @@
   }
   
   /*Idea from https://sharkcoder.com/visual/underline*/
-  a:hover::after { 
-    width: 100%; 
-    left: 0; 
-  }
+a:hover::after { 
+  width: 100%; 
+  left: 0; 
+}
 
 nav .navbar-brand
 {
@@ -80,8 +107,10 @@ nav
 }
 
 .recentNews {
-  background-color: rgb(20, 117, 175)  
+  /* Via https://www.w3schools.com/css/css3_gradients.asp */
+  background-image: linear-gradient(rgb(43, 43, 139), white);
 }
+/* Via https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml */
 .recentNews .news-title {
   text-align:center;
   padding-top:30px;

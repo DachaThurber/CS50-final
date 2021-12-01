@@ -5,26 +5,34 @@
 {% endblock %}
 
 {% block main %}
+    <head>
+        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                crossorigin="anonymous">
+    </head>
     <form action="/report" method="post">
         <div class="alert alert-primary" role="alert">
             <h3>Insert sleep data:</h3>
         </div>
-        <div class="alert alert-secondary" role="alert"> 
+        <div class="alert alert-secondary" role="alert")> 
             <input id="date" name="date" placeholder="Today's Date" type="date">
             <br><br>
             <input id="bedtime" name="bedtime" placeholder="Bedtime" type="time">
             <br><br>
             <input id="wakeup" name="wakeup" placeholder="Wake Up" type="time">
             <br><br>
+            <!-- Courtesy of https://www.youtube.com/watch?v=u3rylF3y3og-->
             <div> 
-                <label> Rating: </label> <br>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-            </div>          
+                <div class="stars-outer">
+                    <div class="stars-inner"></div>
+                </div>
+                <span class="number-rating"></span>
+            </div> 
+            <script>
+                //Initial ratings
+                const ratings = {}
+            </script>         
             <br><br>
         </div>
         <div class="alert alert-primary" role="alert">

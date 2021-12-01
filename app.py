@@ -77,7 +77,6 @@ def report():
         db.execute("INSERT INTO sleeplog(date, bedtime, wakeup, rating, user_id) VALUES (?, ?, ?, ?)", date, bedtime, wakeup, rating, session["user_id"])
 
         return render_template("data.html")
-        
     else:
         return render_template("report.html")
 
