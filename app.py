@@ -155,7 +155,6 @@ def register():
             return apology("passwords must match", 400)
 
         # Store User's information
-        print('got here')
         username = request.form.get("username")
         hash = generate_password_hash(request.form.get("password"))
         country = request.form.get("country")
