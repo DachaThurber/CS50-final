@@ -1,4 +1,5 @@
 import os
+from re import S
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -141,10 +142,6 @@ def register():
     """Register user"""
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-
-        # Ensure username was submitted
-        if not request.form.get("username"):
-            return apology("must provide username", 400)
         
         # Query database for existing usernames
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
@@ -153,18 +150,22 @@ def register():
         if len(rows) == 1:
             return apology("username already in use", 400)
 
-        # Ensure password was submitted
-        if not request.form.get("password") or not request.form.get("confirmation"):
-            return apology("must provide password and confirmation", 400)
-
         # Ensure passwords match
         if request.form.get("password") != request.form.get("confirmation"):
             return apology("passwords must match", 400)
 
         # Store User's information
+        print('got here')
         username = request.form.get("username")
         hash = generate_password_hash(request.form.get("password"))
-        db.execute("INSERT INTO users (username, hash) VALUES(?,?)", username, hash)
+        country = request.form.get("country")
+        state = request.form.get("state")
+        gender = request.form.get("gender")
+        birthday = request.form.get("birthday")
+        if state != "":
+            db.execute("INSERT INTO users (username, hash, country, state, gender, birthday) VALUES(?,?,?,?,?,?)", username, hash, country, state, gender, birthday)
+        else:
+            db.execute("INSERT INTO users (username, hash, country, gender, birthday) VALUES(?,?,?,?,?)", username, hash, country, gender, birthday)
 
         # Redirect user to home page
         return redirect("/login")

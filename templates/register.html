@@ -11,10 +11,9 @@
         </div>
         <div class="mb-3">
             <!--Courtesy of https://stackoverflow.com/questions/53388003/select-country-dropdown-in-html-page-->
-            <label for="country">Primary Country of Residence</label>
             <select name="country" class="form-control mx-auto w-auto" id="country" required>
+                    <option value="" label="Select your Country of Residence..." selected="selected">Select Your Country of Residence...</option>
                 <optgroup id="country-optgroup-Africa" label="Africa">
-                    <option value="">None</option>
                     <option value="DZ" label="Algeria">Algeria</option>
                     <option value="AO" label="Angola">Angola</option>
                     <option value="BJ" label="Benin">Benin</option>
@@ -286,8 +285,8 @@
                 let html = '';
                 if (input.value == "US") {
                     // Courtesy of https://www.freeformatter.com/usa-state-list-html-select.html
-                    html += `<select name="state" class="form-control mx-auto w-auto" id="state">
-                                <option value="0" label="State" selected="selected">Primary State of Residence</option>
+                    html += `<select name="state" class="form-control mx-auto w-auto" id="state" required>
+                                <option value="" label="Select your State of Residence..." selected="selected">Select your State of Residence...</option>
                                 <option value="AL">Alabama</option>
 	                            <option value="AK">Alaska</option>
 	                            <option value="AZ">Arizona</option>
@@ -351,8 +350,8 @@
             });
         </script>
         <div class="mb-3">
-            <select name="gender" class="form-control mx-auto w-auto" id="gender">
-                <option value="0" label="gender" selected="selected">Gender</option>
+            <select name="gender" class="form-control mx-auto w-auto" id="gender" required>
+                <option value="" label="Select Your Gender..." selected="selected">Select Your Gender...</option>
                 <option value="female">Female</option>
                 <option value="male">Male</option>
                 <option value="non-binary">Non-Binary</option>
@@ -362,10 +361,13 @@
             </select>
         </div>
         <div class="mb-3">
-            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+            <input type="date" id="birthday" name="birthday" required>
         </div>
         <div class="mb-3">
-            <input class="form-control mx-auto w-auto" id="password" name="confirmation" placeholder="Confirm Password" type="password">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="confirmation" placeholder="Confirm Password" type="password" required>
         </div>
         <button class="btn btn-primary" type="submit">Register</button>
     </form>
