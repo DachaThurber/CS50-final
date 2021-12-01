@@ -75,6 +75,7 @@ nav .navbar-brand
 nav
 {
     background-color: rgb(43, 43, 139);
+    /*background-image: linear-gradient(rgb(43, 43, 139), white);*/
     padding-bottom: 5%;
 }
 
