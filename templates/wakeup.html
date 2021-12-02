@@ -1,37 +1,42 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Wakeup
+Wakeup
 {% endblock %}
 
 {% block main %}
-<!DOCTYPE html>
-<html lang="en"> 
-    <!-- Courtesy of https://enlight.nyc/projects/weather -->
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="stylesheet" href="style.css" />
-        <h1 class="header"> Good morning! </h1> 
-        <br> <br>
-    </head>
-    <body>
+<!-- Courtesy of https://enlight.nyc/projects/weather -->
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <h1 class="header"> Good morning, {{ name }}! </h1>
+    <br>
+</head>
+
+<body>
+    <div>
+        <h2> {{ quote }}</h2>
+        <p> Source: {{ link }}</p>
+        <br>
+    </div>
+    <div class="forecast">
         <div class="forecast">
-            <div class="forecast">
-                <h2 id="location" class="forecast-Text"></h2>
-                <h3 id="temperature" class="forecast-Text"></h3>
-                <h3 id="description" class="forecast-Text"></h3>
-            </div>
+            <h2 id="location" class="forecast-Text"></h2>
+            <h3 id="temperature" class="forecast-Text"></h3>
+            <h3 id="description" class="forecast-Text"></h3>
         </div>
-        <br> <br>
-        <!--Courtesy of https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml-->
-        <section class="recentNews">  
-            <div class="container">
-                <h2 class="letter-style">Your News Feed</h2>
-                <div class="row">
+    </div>
+    <br>
+    <!--Courtesy of https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml-->
+    <section class="recentNews">
+        <div class="container">
+            <h2 class="letter-style">Your News Feed</h2>
+            <div class="row">
                 <div class="ct-blog col-sm-6 col-md-4">
                     <div class="inner">
-                        <a href = "https://www.nytimes.com/">
+                        <a href="https://www.nytimes.com/">
                             <div class="ct-blog-content">
                                 <div class="ct-blog-date">
                                     <!-- Courtesy of https://stackoverflow.com/questions/1643320/get-month-name-from-date and https://www.arclab.com/en/kb/htmlcss/display-date-time-javascript-php-ssi.html-->
@@ -91,82 +96,65 @@
                     </div>
                 </div>
             </div>
-        </section>
-    </body> 
-    <!-- Courtesy of https://enlight.nyc/projects/weather -->
-    <script>
-    
-        function getWeather() {
+    </section>
+</body>
+<!-- Courtesy of https://enlight.nyc/projects/weather -->
+<script>
 
-            console.log("line 94");
+    function getWeather() {
 
-            // Sets each id in HTML to var
-            let temperature = document.getElementById("temperature");
-            let description = document.getElementById("description");
-            let location = document.getElementById("location");
+        // Sets each id in HTML to var
+        let temperature = document.getElementById("temperature");
+        let description = document.getElementById("description");
+        let location = document.getElementById("location");
 
-            // Create vars for weather API endpoint and API key
-            // Key via https://home.openweathermap.org/api_keys
-            let api = "https://api.openweathermap.org/data/2.5/weather";
-            let apiKey = "b4510e04e6e50e28ce602a5419c0b351";
+        // Create vars for weather API endpoint and API key
+        // Key via https://home.openweathermap.org/api_keys
+        let api = "https://api.openweathermap.org/data/2.5/weather";
+        let apiKey = "b4510e04e6e50e28ce602a5419c0b351";
 
-            location.innerHTML = "Locating...";
+        location.innerHTML = "Locating...";
 
-            // Call geolocation web API
-            navigator.geolocation.getCurrentPosition(success, error);
+        // Call geolocation web API
+        navigator.geolocation.getCurrentPosition(success, error);
 
-            function success(position) {
-                console.log("success!! ")
-                // Save lat. and long.
-                latitude = position.coords.latitude;
-                longitude = position.coords.longitude;
+        function success(position) {
+            console.log("success!! ")
+            // Save lat. and long.
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
 
-                // Fetch info from Internet
-                let url =
-                    api +
-                    "?lat=" +
-                    latitude +
-                    "&lon=" +
-                    longitude +
-                    "&appid=" +
-                    apiKey +
-                    "&units=imperial";
+            // Fetch info from Internet
+            let url =
+                api +
+                "?lat=" +
+                latitude +
+                "&lon=" +
+                longitude +
+                "&appid=" +
+                apiKey +
+                "&units=imperial";
 
-                // Fetch data
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Set innerHTMl tags to temperature, description, and location
-                        console.log(data);
-                        let temp = data.main.temp;
-                        temperature.innerHTML = temp + "° F";
-                        location.innerHTML =
-                            data.name + " (" + latitude + "°, " + longitude + "°)";
-                        description.innerHTML = data.weather[0].main;
-                    });
-            }
-
-            function error() {
-                location.innerHTML = "Unable to retrieve your location";
-            }
-            
+            // Fetch data
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Set innerHTMl tags to temperature, description, and location
+                    console.log(data);
+                    let temp = data.main.temp;
+                    temperature.innerHTML = temp + "° F";
+                    location.innerHTML =
+                        data.name + " (" + latitude + "°, " + longitude + "°)";
+                    description.innerHTML = data.weather[0].main;
+                });
         }
-        getWeather()
-    </script>
-    <div>
 
-    </div>
-    <script>
-        gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: "14IDhLrytsbagghJyj6smYM8PjUrXFftyhiNSg3UDG1Y",
-            range: 1
-        }).then((response) => {
-            var result = response.result;
-            var numRows = result.values ? result.values.length : 0;
-            console.log(`${numRows} rows retrieved.`);
-        });
-    </script>
-</html>
+        function error() {
+            location.innerHTML = "Unable to retrieve your location";
+        }
+
+    }
+    getWeather()
+</script>
 
 {% endblock %}
-
