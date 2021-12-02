@@ -12,19 +12,15 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" href="style.css" />
-        <h1 class="header"> Good morning! </h1>
+        <h1 class="header"> Good morning! </h1> 
+        <br> <br>
     </head>
     <body>
         <div class="forecast">
-            <div class="ct-blog col-sm-6 col-md-4">
-                <div class="forecast">
-                    <div class="ct-blog-content">
-                        <h2 class="forecast-Text"> Your forecast: </h2>
-                        <h2 id="temperature" class="forecast-Text"></h2>
-                        <h2 id="description" class="forecast-Text"></h2>
-                        <p id="location" class="forecast-Text"></p>
-                    </div>
-                </div>
+            <div class="forecast">
+                <h2 id="location" class="forecast-Text"></h2>
+                <h3 id="temperature" class="forecast-Text"></h3>
+                <h3 id="description" class="forecast-Text"></h3>
             </div>
         </div>
         <br> <br>
@@ -110,6 +106,7 @@
             let location = document.getElementById("location");
 
             // Create vars for weather API endpoint and API key
+            // Key via https://home.openweathermap.org/api_keys
             let api = "https://api.openweathermap.org/data/2.5/weather";
             let apiKey = "b4510e04e6e50e28ce602a5419c0b351";
 
@@ -154,9 +151,20 @@
             }
             
         }
-
         getWeather()
+    </script>
+    <div>
 
+    </div>
+    <script>
+        gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: "14IDhLrytsbagghJyj6smYM8PjUrXFftyhiNSg3UDG1Y",
+            range: 1
+        }).then((response) => {
+            var result = response.result;
+            var numRows = result.values ? result.values.length : 0;
+            console.log(`${numRows} rows retrieved.`);
+        });
     </script>
 </html>
 
