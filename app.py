@@ -91,9 +91,10 @@ def findfriends():
             return apology("cannot follow own account", 403)
 
         # Ensure user doesn't already follow other user
+        # check = db.execute("SELECT followee_id FROM followers WHERE follower_id=?", follower_id)
         check = db.execute("SELECT follower_id FROM followers WHERE followee_id = ?", session["user_id"])
-
-        for x in check:
+        
+        for x in check.items():
             if check[x]['follower_id'] == follower_id:
                 return apology("you already follow this user", 403)
 
