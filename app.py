@@ -11,6 +11,9 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-whitegrid')
+import numpy
 import io
 
 from helpers import apology, login_required, lookup, usd
@@ -172,23 +175,41 @@ def maxRowsTable():
         
     return maxNumberRows
 
-@app.route('/plot/sleep_time')
-def plot_temp():
-	dates, bedtimes, wakeups, ratigns = getHistData(numSamples)
-	ys = wakeups
-	fig = Figure()
-	axis = fig.add_subplot(1, 1, 1)
-	axis.set_title("Sleep Time")
-	axis.set_xlabel("Nights")
-	axis.grid(True)
-	xs = range(numSamples)
-	axis.plot(xs, ys)
-	canvas = FigureCanvas(fig)
-	output = io.BytesIO()
-	canvas.print_png(output)
-	response = make_response(output.getvalue())
-	response.mimetype = 'image/png'
-	return response
+@app.route('/plot/bedtime')
+def plot_bedtime():
+    dates, bedtimes, wakeups, ratings = getHistData(numSamples)
+    ys = bedtimes
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.set_title("Bedtime")
+    axis.set_xlabel("Nights")
+    axis.grid(True)
+    xs = dates
+    axis.plot(xs, ys, 'o', color='black')
+    canvas = FigureCanvas(fig)
+    output = io.BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
+
+@app.route('/plot/wakeup')
+def plot_wakeup():
+    dates, bedtimes, wakeups, ratings = getHistData(numSamples)
+    ys = wakeups
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.set_title("Wakeup")
+    axis.set_xlabel("Mornings")
+    axis.grid(True)
+    xs = dates
+    axis.plot(xs, ys, 'o', color='black')
+    canvas = FigureCanvas(fig)
+    output = io.BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

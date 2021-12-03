@@ -358,8 +358,11 @@
                 <option value="other">Other</option>
             </select>
         </div>
-        <input name="numSamples" value= {{numSamples}} required>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="numSamples" placeholder="Number of Days" required value= {{numSamples}}>
+        </div>
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
-    <img src="/plot/sleep_time" alt="Image Placeholder" width="49%">
+    <img src="/plot/bedtime" alt="Image Placeholder" width="49%">
+    <img src="/plot/wakeup" alt="Image Placeholder" width="49%">
 {% endblock %}

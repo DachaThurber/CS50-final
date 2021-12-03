@@ -194,3 +194,7 @@ nav
 .btn-news.btn-contests a:hover {
   color: #000;
 }
+
+img {
+  display: inline-block;
+}
