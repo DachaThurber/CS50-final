@@ -1,5 +1,6 @@
 import os
 from re import S
+from random import randint
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -35,7 +36,6 @@ db = SQL("sqlite:///sleep.db")
 #if not os.environ.get("API_KEY"):
 #    raise RuntimeError("API_KEY not set")
 
-
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -50,12 +50,56 @@ def after_request(response):
 def home():
     return apology("TODO")
 
-
+# Not entirely sure GET and POST are both needed here
+    # How to change when date is new???
 @app.route("/wakeup", methods=["GET", "POST"])
 @login_required
 def wakeup():
-    return render_template("wakeup.html")
 
+    value = randint(1, 30)
+    
+    both = db.execute("SELECT quote, link FROM affirmations WHERE id=?", value)
+
+    name = db.execute("SELECT username FROM users WHERE id=?", session["user_id"])
+
+    return render_template("wakeup.html", quote=both[0]["quote"], link=both[0]["link"], name=name[0]["username"])
+
+@app.route("/findfriends", methods=["GET", "POST"])
+@login_required
+def findfriends():
+    
+    if request.method == "POST":
+
+        username = request.form.get("username")
+
+        if not username:
+            return apology("must provide valid username", 403)
+
+        row = db.execute("SELECT id FROM users WHERE username = ?", username)
+
+        # If user does not exist
+        if not row:
+            return apology("user does not exist", 403)
+
+        follower_id = row[0]["id"]
+
+        # Ensure username isn't current user's own ID
+        if follower_id == session["user_id"]:
+            return apology("cannot follow own account", 403)
+
+        # Ensure user doesn't already follow other user
+        check = db.execute("SELECT follower_id FROM followers WHERE followee_id = ?", session["user_id"])
+
+        for x in check:
+            if check[x]['follower_id'] == follower_id:
+                return apology("you already follow this user", 403)
+
+        db.execute("INSERT INTO followers(follower_id, followee_id) VALUES(?,?)", follower_id, session["user_id"])
+
+        return render_template("ffsuccess.html", username=username)
+
+    else:
+        return render_template("findfriends.html")
 
 @app.route("/report", methods=["GET", "POST"])
 @login_required
@@ -149,7 +193,6 @@ def plot_temp():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
-
 
     # Forget any user_id
     session.clear()

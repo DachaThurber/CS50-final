@@ -16,23 +16,26 @@
             <h3>Insert sleep data:</h3>
         </div>
         <div class="alert alert-secondary" role="alert")> 
-            <input id="date" name="date" placeholder="Today's Date" type="date">
+            <label> Today's Date:</label> <br>
+            <input id="date" name="date" type="date">
             <br><br>
-            <input id="bedtime" name="bedtime" placeholder="Bedtime" type="time">
+            <label> Time you fell asleep last night:</label> <br>
+            <input id="bedtime" name="bedtime" type="time">
             <br><br>
-            <input id="wakeup" name="wakeup" placeholder="Wake Up" type="time">
+            <label> Time you woke up this morning:</label> <br>
+            <input id="wakeup" name="wakeup" type="time">
             <br><br>
             <!-- Courtesy of https://www.youtube.com/watch?v=u3rylF3y3og-->
+            <!-- Courtesy of https://www.w3schools.com/howto/howto_css_star_rating.asp-->
             <div> 
-                <div class="stars-outer">
-                    <div class="stars-inner"></div>
-                </div>
-                <span class="number-rating"></span>
-            </div> 
-            <script>
-                //Initial ratings
-                const ratings = {}
-            </script>         
+                <label> Rate your sleep out of 5: </label> <br>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>              
             <br><br>
         </div>
         <div class="alert alert-primary" role="alert">
