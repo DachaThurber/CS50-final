@@ -3,10 +3,14 @@ from re import S
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
+from flask.helpers import make_response
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import io
 
 from helpers import apology, login_required, lookup, usd
 
@@ -71,15 +75,76 @@ def report():
             return apology("must provide bedtime", 403)
         if not wakeup:
             return apology("must provide wakeup", 403)
-        if not rating:
-            return apology("must provide rating", 403)
+        #if not rating:
+            #return apology("must provide rating", 403)
         
-        db.execute("INSERT INTO sleeplog(date, bedtime, wakeup, rating, user_id) VALUES (?, ?, ?, ?)", date, bedtime, wakeup, rating, session["user_id"])
+        db.execute("INSERT INTO sleeplog(date, bedtime, wakeup, rating, user_id) VALUES (?, ?, ?, ?, ?)", date, bedtime, wakeup, rating, session["user_id"])
 
-        return render_template("data.html")
+        return redirect("/")
     else:
         return render_template("report.html")
 
+
+# Courtesy of https://medium.com/@rovai/from-data-to-graph-a-web-jorney-with-flask-and-sqlite-6c2ec9c0ad0
+global numSamples
+@app.route("/data", methods=["GET", "POST"])
+def data():
+    if request.method == "POST":
+        global numSamples
+        numSamples = maxRowsTable()
+        if (numSamples > 101):
+            numSamples = 100
+        numSamples = int (request.form['numSamples'])
+        numMaxSamples = maxRowsTable()
+        if (numSamples > numMaxSamples):
+            numSamples = (numMaxSamples-1)
+        templateData = {
+      		'numSamples'	: numSamples
+	    }
+        return render_template('data.html', **templateData) 
+    else:
+        return render_template("data.html")
+
+def getHistData(numSamples):
+
+    data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"])
+    dates = []
+    bedtimes = []
+    wakeups = []
+    ratings = []
+
+    for row in reversed(data):
+        dates.append((list(row.values()))[0])
+        bedtimes.append((list(row.values()))[1])
+        wakeups.append((list(row.values()))[2])
+        ratings.append((list(row.values()))[3])
+
+    return dates, bedtimes, wakeups, ratings
+
+def maxRowsTable():
+    maxNumberRows = 2
+    for row in db.execute("SELECT COUNT(bedtime) FROM sleeplog WHERE user_id = ?", session["user_id"]):
+        maxNumberRows=((list(row.values()))[0])
+        
+    return maxNumberRows
+
+@app.route('/plot/sleep_time')
+def plot_temp():
+	dates, bedtimes, wakeups, ratigns = getHistData(numSamples)
+	ys = wakeups
+	fig = Figure()
+	axis = fig.add_subplot(1, 1, 1)
+	axis.set_title("Sleep Time")
+	axis.set_xlabel("Nights")
+	axis.grid(True)
+	xs = range(numSamples)
+	axis.plot(xs, ys)
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -129,13 +194,6 @@ def logout():
     return redirect("/")
 
 
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-    """Get stock quote."""
-    return apology("TODO")
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
@@ -171,13 +229,6 @@ def register():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("register.html")
-
-
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-    """Sell shares of stock"""
-    return apology("TODO")
 
 
 def errorhandler(e):

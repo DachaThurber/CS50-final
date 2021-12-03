@@ -5,6 +5,7 @@ Before running, run the following commands to install necessary packages:
   pip3 install cs50
   pip3 install Flask
   pip3 install Flask-Session
+  pip3 install matplotlib
  
 Also ensure you have the following installed on your machine:
   python3
