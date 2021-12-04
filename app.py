@@ -149,11 +149,11 @@ def findfriends():
             return apology("cannot follow own account", 403)
 
         # Ensure user doesn't already follow other user
-        # check = db.execute("SELECT follower_id FROM followers WHERE followee_id = ?", session["user_id"])
+        check = db.execute("SELECT follower_id FROM followers WHERE followee_id = ?", session["user_id"])
 
-        # for x in check.items():
-            # if check[x]['follower_id'] == follower_id:
-                # return apology("you already follow this user", 403)
+        for x in check:
+            if x.get("follower_id") == follower_id:
+                return apology("you already follow this user", 403)
 
         db.execute("INSERT INTO followers(follower_id, followee_id) VALUES(?,?)", follower_id, session["user_id"])
 
@@ -199,6 +199,7 @@ def report():
 global numSamples
 @app.route("/data", methods=["GET", "POST"])
 def data():
+
     if request.method == "POST":
         global numSamples
         numSamples = maxRowsTable()
@@ -212,8 +213,21 @@ def data():
       		'numSamples'	: numSamples
 	    }
         return render_template('data.html', **templateData) 
+
     else:
-        return render_template("data.html")
+
+        # Select ids from users that current user is following
+        following = db.execute("SELECT follower_id FROM followers WHERE followee_id=?", session["user_id"])
+
+        # Grab the usernames and save into new dict
+        usernames = []
+        for x in following:
+            foo = db.execute("SELECT username FROM users WHERE id=?", x.get("follower_id"))
+            faz = foo[0]["username"]
+            usernames.append(faz)
+
+        # Pass new dict into render template
+        return render_template("data.html", usernames=usernames)
 
 def getHistData(numSamples):
 

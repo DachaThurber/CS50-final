@@ -361,6 +361,16 @@
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" name="numSamples" placeholder="Number of Days" required value= {{numSamples}}>
         </div>
+        <label>Compare with your friend:</label>
+        <br> 
+        <div class="dropdown">
+            <select> 
+                {% for value in usernames %}
+                    <option> {{value}} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <br> <br>
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
     <img src="/plot/bedtime" alt="Image Placeholder" width="49%">
