@@ -7,6 +7,7 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask.helpers import make_response
 from flask_session import Session
 from tempfile import mkdtemp
+from datetime import datetime
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -18,6 +19,11 @@ import io
 import datetime
 
 from helpers import apology, login_required, lookup, usd
+
+global quote
+global link
+quote = "I have value and I matter"
+link = "https://committedtomyself.com/list-of-positive-affirmations/"
 
 # Configure application
 app = Flask(__name__)
@@ -39,6 +45,7 @@ db = SQL("sqlite:///sleep.db")
 # Make sure API key is set
 #if not os.environ.get("API_KEY"):
 #    raise RuntimeError("API_KEY not set")
+
 
 @app.after_request
 def after_request(response):
@@ -75,37 +82,48 @@ def home():
 @login_required
 def wakeup():
 
+    # global quote
+    # global link
+    
     name = db.execute("SELECT username FROM users WHERE id=?", session["user_id"])
 
     # Pull last login
     last_login = db.execute("SELECT recent_login FROM users WHERE id=?", session["user_id"])
-    last_login= last_login[0]["recent_login"]
+    last_login = last_login[0]["recent_login"]
 
     # Save today's date
     today = datetime.datetime.today().date()
-    today = strfdate()
     
     # If it is a different day then when you last logged in
-    if last_login != today:
-
-        return render_template("ffsuccess.html", username=today, last_login=last_login)
-        # Feed in new affirmation
-        # value = randint(1, 30)
-        # both = db.execute("SELECT quote, link FROM affirmations WHERE id=?", value)
+    if str(last_login) != str(today):
 
         # Reset recent_login
-        # db.execute("UPDATE users SET recent_login=? WHERE id=?", today, session["user_id"])
+        db.execute("UPDATE users SET recent_login=? WHERE id=?", today, session["user_id"])
 
-        # quote = both[0]["quote"]
-        # link = both[0]["link"]
+        # Feed in new affirmation
+        value = randint(1, 30)
+        both = db.execute("SELECT quote, link FROM affirmations WHERE id=?", value)
+
+        quote = both[0]["quote"]
+        link = both[0]["link"]
+
+        # Update that user's current quote in SQL
+        db.execute("UPDATE users SET quote = ?, link =? WHERE id=?", quote, link, session["user_id"])
 
         # Render page
-        # eturn render_template("wakeup.html", quote=quote, link=link, name=name[0]["username"])
+        return render_template("wakeup.html", quote=quote, link=link, name=name[0]["username"])
 
     else:
 
-        # If not, keep old affirmation
-        return render_template("wakeup.html", name=name[0]["username"])
+        # Reset most recent login
+        db.execute("UPDATE users SET recent_login=? WHERE id=?", today, session["user_id"])
+
+        # Pull quote and link from users table
+        both = db.execute("SELECT quote, link FROM users WHERE id=?", session["user_id"])
+        quote = both[0]["quote"]
+        link = both[0]["link"]
+
+        return render_template("wakeup.html", name=name[0]["username"], quote=quote, link=link)
 
 @app.route("/findfriends", methods=["GET", "POST"])
 @login_required
@@ -131,12 +149,11 @@ def findfriends():
             return apology("cannot follow own account", 403)
 
         # Ensure user doesn't already follow other user
-        # check = db.execute("SELECT followee_id FROM followers WHERE follower_id=?", follower_id)
-        check = db.execute("SELECT follower_id FROM followers WHERE followee_id = ?", session["user_id"])
+        # check = db.execute("SELECT follower_id FROM followers WHERE followee_id = ?", session["user_id"])
 
-        for x in check.items():
-            if check[x]['follower_id'] == follower_id:
-                return apology("you already follow this user", 403)
+        # for x in check.items():
+            # if check[x]['follower_id'] == follower_id:
+                # return apology("you already follow this user", 403)
 
         db.execute("INSERT INTO followers(follower_id, followee_id) VALUES(?,?)", follower_id, session["user_id"])
 
@@ -329,8 +346,13 @@ def register():
         gender = request.form.get("gender")
         birthday = request.form.get("birthday")
         today = datetime.datetime.today().date()
+        value = randint(1, 30)
+        both = db.execute("SELECT quote,link FROM affirmations WHERE id=?", value)
+        quote = both[0]["quote"]
+        link = both[0]["link"]
+
         if state != "":
-            db.execute("INSERT INTO users (username, hash, country, state, gender, birthday, recent_login) VALUES(?,?,?,?,?,?,?)", username, hash, country, state, gender, birthday, today)
+            db.execute("INSERT INTO users (username, hash, country, state, gender, birthday, recent_login, quote, link) VALUES(?,?,?,?,?,?,?,?,?)", username, hash, country, state, gender, birthday, today, quote, link)
         else:
             db.execute("INSERT INTO users (username, hash, country, gender, birthday) VALUES(?,?,?,?,?)", username, hash, country, gender, birthday)
 
