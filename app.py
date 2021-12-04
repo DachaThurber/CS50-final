@@ -7,11 +7,13 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask.helpers import make_response
 from flask_session import Session
 from tempfile import mkdtemp
+from matplotlib import collections
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
 plt.style.use('seaborn-whitegrid')
 import numpy
 import io
@@ -132,7 +134,7 @@ def report():
         return render_template("report.html")
 
 
-# Courtesy of https://medium.com/@rovai/from-data-to-graph-a-web-jorney-with-flask-and-sqlite-6c2ec9c0ad0
+# With help from https://medium.com/@rovai/from-data-to-graph-a-web-jorney-with-flask-and-sqlite-6c2ec9c0ad0
 global numSamples
 @app.route("/data", methods=["GET", "POST"])
 def data():
@@ -142,9 +144,14 @@ def data():
         if (numSamples > 101):
             numSamples = 100
         numSamples = int (request.form['numSamples'])
+        country = request.form['country']
+        state = ''
+        if country == 'US':
+            state = request.form['state']
+        gender = request.form['gender']
         numMaxSamples = maxRowsTable()
         if (numSamples > numMaxSamples):
-            numSamples = (numMaxSamples-1)
+            numSamples = (numMaxSamples)
         templateData = {
       		'numSamples'	: numSamples
 	    }
@@ -153,6 +160,12 @@ def data():
         return render_template("data.html")
 
 def getHistData(numSamples):
+
+    all_dates = db.execute("SELECT date FROM sleeplog")
+    for date in all_dates:
+        null_dates = db.execute("SELECT date FROM sleeplog WHERE user_id IS NULL")
+        if date not in null_dates:
+            db.execute("INSERT INTO sleeplog (date) VALUES (?)", date.get('date'))
 
     data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"])
     dates = []
@@ -166,7 +179,19 @@ def getHistData(numSamples):
         wakeups.append((list(row.values()))[2])
         ratings.append((list(row.values()))[3])
 
-    return dates, bedtimes, wakeups, ratings
+    ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog WHERE (user_id != ? OR user_id IS NULL) AND date BETWEEN ? AND ? ORDER BY date DESC", session["user_id"], dates[0], dates[len(dates)-1])
+    ave_dates = []
+    ave_bedtimes = []
+    ave_wakeups = []
+    ave_ratings = []
+    
+    for row in reversed(ave_data):
+        ave_dates.append((list(row.values()))[0])
+        ave_bedtimes.append((list(row.values()))[1])
+        ave_wakeups.append((list(row.values()))[2])
+        ave_ratings.append((list(row.values()))[3])
+
+    return dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings
 
 def maxRowsTable():
     maxNumberRows = 2
@@ -177,15 +202,19 @@ def maxRowsTable():
 
 @app.route('/plot/bedtime')
 def plot_bedtime():
-    dates, bedtimes, wakeups, ratings = getHistData(numSamples)
+    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples)
     ys = bedtimes
+    ave_ys = ave_bedtimes
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
     axis.set_title("Bedtime")
-    axis.set_xlabel("Nights")
+    axis.set_xlabel("Next Morning")
     axis.grid(True)
     xs = dates
-    axis.plot(xs, ys, 'o', color='black')
+    ave_xs = ave_dates
+    axis.scatter(ave_xs, ave_ys)
+    axis.scatter(xs, ys)
+
     canvas = FigureCanvas(fig)
     output = io.BytesIO()
     canvas.print_png(output)
@@ -195,7 +224,7 @@ def plot_bedtime():
 
 @app.route('/plot/wakeup')
 def plot_wakeup():
-    dates, bedtimes, wakeups, ratings = getHistData(numSamples)
+    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples)
     ys = wakeups
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
