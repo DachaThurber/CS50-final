@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 plt.style.use('seaborn-whitegrid')
 import numpy
 import io
+import datetime
 
 from helpers import apology, login_required, lookup, usd
 
@@ -47,25 +48,64 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
 @app.route("/")
 @login_required
 def home():
-    return apology("TODO")
+
+    # I want to reset sleeplog to make bedtime and wakeup TIME variables, so I can show the bedtime page half an hour
+    # before their bedtime. Getting error with DROP COLUMN. Requires fix 
+
+    # Via https://www.codegrepper.com/code-examples/python/get+current+hour+python
+    current_time = datetime.datetime.now()
+    change = datetime.time(12, 00, 0)
+
+    # If past noon, show bedtime page
+    if current_time.hour > change.hour:
+    
+        val = bedtime()
+        return val
+    
+    # If before noon, show wakeup page
+    else:
+        val = wakeup()
+        return val
 
 # Not entirely sure GET and POST are both needed here
-    # How to change when date is new???
 @app.route("/wakeup", methods=["GET", "POST"])
 @login_required
 def wakeup():
 
-    value = randint(1, 30)
-    
-    both = db.execute("SELECT quote, link FROM affirmations WHERE id=?", value)
-
     name = db.execute("SELECT username FROM users WHERE id=?", session["user_id"])
 
-    return render_template("wakeup.html", quote=both[0]["quote"], link=both[0]["link"], name=name[0]["username"])
+    # Pull last login
+    last_login = db.execute("SELECT recent_login FROM users WHERE id=?", session["user_id"])
+    last_login= last_login[0]["recent_login"]
+
+    # Save today's date
+    today = datetime.datetime.today().date()
+    today = strfdate()
+    
+    # If it is a different day then when you last logged in
+    if last_login != today:
+
+        return render_template("ffsuccess.html", username=today, last_login=last_login)
+        # Feed in new affirmation
+        # value = randint(1, 30)
+        # both = db.execute("SELECT quote, link FROM affirmations WHERE id=?", value)
+
+        # Reset recent_login
+        # db.execute("UPDATE users SET recent_login=? WHERE id=?", today, session["user_id"])
+
+        # quote = both[0]["quote"]
+        # link = both[0]["link"]
+
+        # Render page
+        # eturn render_template("wakeup.html", quote=quote, link=link, name=name[0]["username"])
+
+    else:
+
+        # If not, keep old affirmation
+        return render_template("wakeup.html", name=name[0]["username"])
 
 @app.route("/findfriends", methods=["GET", "POST"])
 @login_required
@@ -93,7 +133,7 @@ def findfriends():
         # Ensure user doesn't already follow other user
         # check = db.execute("SELECT followee_id FROM followers WHERE follower_id=?", follower_id)
         check = db.execute("SELECT follower_id FROM followers WHERE followee_id = ?", session["user_id"])
-        
+
         for x in check.items():
             if check[x]['follower_id'] == follower_id:
                 return apology("you already follow this user", 403)
@@ -104,6 +144,11 @@ def findfriends():
 
     else:
         return render_template("findfriends.html")
+
+@app.route("/bedtime", methods=["GET", "POST"])
+@login_required
+def bedtime():
+    return render_template("bedtime.html")
 
 @app.route("/report", methods=["GET", "POST"])
 @login_required
@@ -283,8 +328,9 @@ def register():
         state = request.form.get("state")
         gender = request.form.get("gender")
         birthday = request.form.get("birthday")
+        today = datetime.datetime.today().date()
         if state != "":
-            db.execute("INSERT INTO users (username, hash, country, state, gender, birthday) VALUES(?,?,?,?,?,?)", username, hash, country, state, gender, birthday)
+            db.execute("INSERT INTO users (username, hash, country, state, gender, birthday, recent_login) VALUES(?,?,?,?,?,?,?)", username, hash, country, state, gender, birthday, today)
         else:
             db.execute("INSERT INTO users (username, hash, country, gender, birthday) VALUES(?,?,?,?,?)", username, hash, country, gender, birthday)
 
