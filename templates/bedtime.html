@@ -5,7 +5,21 @@
 {% endblock %}
 
 {% block main %}
+<!-- Courtesy of https://enlight.nyc/projects/weather -->
 <head>
-    <h1> Go to bed </h1>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <h1 class="header"> Good evening, {{ name }} </h1>
+    <br>
 </head>
+<body>
+    <!--Courtesy of https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml-->
+    <section class="fadebackground">
+        <br> <br>
+        <iframe src="https://www.google.com/" style="height:200px;width:300px;" title="Iframe Example"></iframe>
+        <br> <br>
+    </section>
+</body>
+
 {% endblock %}

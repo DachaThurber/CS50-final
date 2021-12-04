@@ -1,19 +1,29 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    findfriends
+findfriends
 {% endblock %}
 
 {% block main %}
+
 <head>
-    <h2 class="header"> Find your friends! </h2> 
+    <h2 class="header"> Find your friends! </h2>
     <br>
 </head>
+
 <body>
     <form action="/findfriends" method="post">
-        <input name="username" placeholder="Friend's username">
+        <div>
+            <!-- Via https://stackoverflow.com/questions/36712967/single-dropdown-with-search-box-in-it -->
+            <datalist id="suggestions">
+                {% for value in usernames %}
+                    <option>{{value}}</option>
+                {% endfor %}
+            </datalist>
+            <input  autoComplete="on" list="suggestions"/> 
+        </div>
         <br> <br>
-        <button class="btn btn-primary" type="submit"> Follow </button>
+        <button class="button" type="submit"> Follow </button>
     </form>
 </body>
 

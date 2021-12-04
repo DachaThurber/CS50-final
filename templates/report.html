@@ -12,10 +12,11 @@
                 crossorigin="anonymous">
     </head>
     <form action="/report" method="post">
-        <div class="alert alert-primary" role="alert">
-            <h3>Insert sleep data:</h3>
+        <div class="box">
+            <h3 id="location" class="forecast-Text">Insert sleep data:</h3>
         </div>
-        <div class="alert alert-secondary" role="alert")> 
+        <br> 
+        <div class="lavender")> 
             <label> Today's Date:</label> <br>
             <input id="date" name="date" type="date">
             <br><br>
@@ -23,11 +24,11 @@
             <input id="bedtime" name="bedtime" type="time">
             <br><br>
             <label> Time you woke up this morning:</label> <br>
-            <input id="wakeup" name="wakeup" type="time">
-            <br><br>         
+            <input id="wakeup" name="wakeup" type="time">         
         </div>
-        <div class="alert alert-primary" role="alert">
-            <button class="btn btn-primary" type="submit">Submit</button>
+        <br><br>
+        <div class="box">
+            <button class="button" type="submit">Submit</button>
         </div>
     </form>
 {% endblock %}

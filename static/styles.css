@@ -22,7 +22,7 @@
     margin: auto;
   }
 
-  .forecast {
+  .box {
     background-color: rgb(43, 43, 139);
     text-align: center;
     transition: all 0.2s ease-in-out 0s;
@@ -101,14 +101,19 @@ nav .navbar-brand
 
 nav
 {
-    background-color: rgb(43, 43, 139);
-    /*background-image: linear-gradient(rgb(43, 43, 139), white);*/
+    /* background-color: rgb(43, 43, 139); */
+    background-image: linear-gradient(to right, rgb(43, 43, 139), #D19EF9); 
     padding-bottom: 5%;
 }
 
-.recentNews {
+.fadebackground {
   /* Via https://www.w3schools.com/css/css3_gradients.asp */
   background-image: linear-gradient(rgb(43, 43, 139), white);
+}
+
+.lavender {
+  /* Via https://www.w3schools.com/css/css3_gradients.asp */
+  background-color:#D19EF9;
 }
 /* Via https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml */
 .recentNews .news-title {
@@ -197,4 +202,11 @@ nav
 
 img {
   display: inline-block;
+}
+
+.button {
+  background-color: #bd81d6; 
+  border: none;
+  color: white;
+  border-radius: 6px;
 }
