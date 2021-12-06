@@ -210,6 +210,9 @@ def report():
 
 # With help from https://medium.com/@rovai/from-data-to-graph-a-web-jorney-with-flask-and-sqlite-6c2ec9c0ad0
 global numSamples
+global country
+global state
+global gender
 @app.route("/data", methods=["GET", "POST"])
 def data():
 
@@ -217,6 +220,9 @@ def data():
 
     if request.method == "POST":
         global numSamples
+        global country
+        global state
+        global gender
         numSamples = maxRowsTable()
         if (numSamples > 101):
             numSamples = 100
@@ -232,13 +238,6 @@ def data():
         templateData = {
       		'numSamples'	: numSamples
 	    }
-        dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples)
-    
-        '''ys_hour = [DT.datetime.strptime(time, '%H:%M').hour for time in bedtimes]
-        ys_min = [DT.datetime.strptime(time, '%H:%M').minute for time in bedtimes]
-        ys_hour_min = [datetime.time(ys_hour[i], ys_min[i], 00) for i in range (len(ys_hour))]
-        ys = [DT.datetime.strptime(time,"%H:%M") for time in bedtimes]
-        return render_template('ffsuccess.html', username = ys)'''
         return render_template('data.html', **templateData) 
 
     else:
@@ -260,15 +259,11 @@ def data():
         # Pass new dict into render template
         return render_template("data.html", usernames=usernames, check=bool)
 
-def getHistData(numSamples):
-
-    '''all_dates = db.execute("SELECT date FROM sleeplog")
-    for date in all_dates:
-        null_dates = db.execute("SELECT date FROM sleeplog WHERE user_id IS NULL")
-        if date not in null_dates:
-            db.execute("INSERT INTO sleeplog (date) VALUES (?)", date.get('date'))'''
-
-    data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"])
+def getHistData(numSamples, country, state, gender):
+    if country != '':
+        data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? AND country = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"], country)
+    else:
+        data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"])
     dates = []
     bedtimes = []
     wakeups = []
@@ -303,7 +298,7 @@ def maxRowsTable():
 
 @app.route('/plot/bedtime')
 def plot_bedtime():
-    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples)
+    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples, country, state, gender)
 
     ys = [DT.datetime.strptime(time,"%H:%M") for time in bedtimes]
     ave_ys = [DT.datetime.strptime(time,"%H:%M") for time in ave_bedtimes]
