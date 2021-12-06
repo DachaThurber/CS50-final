@@ -83,6 +83,7 @@
       text-align: center;
       color: #EDDCFC;
   }
+<<<<<<< HEAD
   
   #bedtimeparagraph {
       color: #EDDCFC;
@@ -97,6 +98,23 @@
       text-align: center;
       font-size: 13px;
   }
+=======
+
+  .paragraph {
+    color:#EDDCFC;
+    font-family: "Quicksand", sans-serif;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  #copyright{
+    color:#EDDCFC;
+    font-family: "Quicksand", sans-serif;
+    text-align: center;
+    font-size: 13px;
+  }
+
+>>>>>>> 70a3acc37db027b685134a8a34036adcda7a4a4b
   /*Idea from https://sharkcoder.com/visual/underline*/
   
   a::after {

@@ -15,7 +15,7 @@ from random import randint
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
-from flask.helpers import make_response
+from flask.helpers import get_debug_flag, make_response
 from flask_session import Session
 from tempfile import mkdtemp
 from matplotlib import collections
@@ -229,41 +229,57 @@ global numSamples
 global country
 global state
 global gender
-
-
+global username
 @app.route("/data", methods=["GET", "POST"])
 def data():
-
+    global numSamples
+    global country
+    global state
+    global gender
+    global username
     bool = 1
 
     if request.method == "POST":
-        global numSamples
-        global country
-        global state
-        global gender
-        numSamples = maxRowsTable()
+        numSamples=maxRowsTable()
+        country = ''
+        state = ''
+        gender = ''
+        username = 'nothing'
         if (numSamples > 101):
             numSamples = 100
-        numSamples = int(request.form['numSamples'])
-        country = request.form['country']
-        state = ''
+        numSamples = int (request.form['numSamples'])
+        if request.form['country']:
+            country = request.form['country']
         if country == 'US':
             state = request.form['state']
         gender = request.form['gender']
+        if request.form['userMenu']:
+            username = request.form['userMenu']
         numMaxSamples = maxRowsTable()
         if (numSamples > numMaxSamples):
             numSamples = (numMaxSamples)
         templateData = {
-            'numSamples': numSamples
+            'numSamples'	: numSamples
         }
-        return render_template('data.html', **templateData)
+        # Select ids from users that current user is following
+        following = db.execute("SELECT follower_id FROM followers WHERE followee_id=?", session["user_id"])
+        # Grab the usernames and save into new dict
+        usernames = []
+        for x in following:
+            foo = db.execute("SELECT username FROM users WHERE id=?", x.get("follower_id"))
+            faz = foo[0]["username"]
+            usernames.append(faz)
+
+        return render_template('data.html', **templateData, usernames=usernames) 
 
     else:
-
+        numSamples=maxRowsTable()
+        country = ''
+        state = ''
+        gender = ''
+        username = 'nothing'
         # Select ids from users that current user is following
-        following = db.execute(
-            "SELECT follower_id FROM followers WHERE followee_id=?", session["user_id"])
-
+        following = db.execute("SELECT follower_id FROM followers WHERE followee_id=?", session["user_id"])
         # Grab the usernames and save into new dict
         usernames = []
         for x in following:
@@ -275,14 +291,9 @@ def data():
         # Pass new dict into render template
         return render_template("data.html", usernames=usernames)
 
-
-def getHistData(numSamples, country, state, gender):
-    if country != '':
-        data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? AND country = ? ORDER BY date DESC LIMIT " +
-                          str(numSamples), session["user_id"], country)
-    else:
-        data = db.execute(
-            "SELECT * FROM sleeplog WHERE user_id = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"])
+def getHistData(numSamples, country, state, gender, username):
+    
+    data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"])
     dates = []
     bedtimes = []
     wakeups = []
@@ -293,9 +304,24 @@ def getHistData(numSamples, country, state, gender):
         bedtimes.append((list(row.values()))[1])
         wakeups.append((list(row.values()))[2])
         ratings.append((list(row.values()))[3])
-
-    ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog WHERE (user_id != ? OR user_id IS NULL) AND date BETWEEN ? AND ? ORDER BY date DESC",
-                          session["user_id"], dates[0], dates[len(dates)-1])
+    ave_data = []
+    if username != 'nothing':
+        ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog JOIN users ON user_id=id WHERE username = ? AND date BETWEEN ? AND ? ORDER BY date DESC", username, dates[0], dates[len(dates)-1])
+    else:
+        if country != '':
+            ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog JOIN users ON user_id=id WHERE (user_id != ? OR user_id IS NULL) AND country = ? AND date BETWEEN ? AND ? ORDER BY date DESC", session["user_id"], country, dates[0], dates[len(dates)-1])
+            if state != '':
+                ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog JOIN users ON user_id=id WHERE (user_id != ? OR user_id IS NULL) AND country = ? AND state = ? AND date BETWEEN ? AND ? ORDER BY date DESC", session["user_id"], country, state, dates[0], dates[len(dates)-1])
+        elif gender != '':
+            if country != '':
+                ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog JOIN users ON user_id=id WHERE (user_id != ? OR user_id IS NULL) AND country = ? AND gender = ? AND date BETWEEN ? AND ? ORDER BY date DESC", session["user_id"], country, gender, dates[0], dates[len(dates)-1])
+                if state != '':
+                    ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog JOIN users ON user_id=id WHERE (user_id != ? OR user_id IS NULL) AND country = ? AND state = ? AND gender = ? AND date BETWEEN ? AND ? ORDER BY date DESC", session["user_id"], country, state, gender, dates[0], dates[len(dates)-1])
+            else:
+                ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog JOIN users ON user_id=id WHERE (user_id != ? OR user_id IS NULL) AND gender = ? AND date BETWEEN ? AND ? ORDER BY date DESC", session["user_id"], gender, dates[0], dates[len(dates)-1])
+        else:
+            ave_data = db.execute("SELECT date, bedtime, wakeup, rating FROM sleeplog WHERE (user_id != ? OR user_id IS NULL) AND date BETWEEN ? AND ? ORDER BY date DESC", session["user_id"], dates[0], dates[len(dates)-1])
+    
     ave_dates = []
     ave_bedtimes = []
     ave_wakeups = []
@@ -320,8 +346,7 @@ def maxRowsTable():
 
 @app.route('/plot/bedtime')
 def plot_bedtime():
-    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(
-        numSamples, country, state, gender)
+    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples, country, state, gender, username)
 
     ys = [DT.datetime.strptime(time, "%H:%M") for time in bedtimes]
     ave_ys = [DT.datetime.strptime(time, "%H:%M") for time in ave_bedtimes]
@@ -333,9 +358,9 @@ def plot_bedtime():
     axis.set_title("Bedtime")
     axis.set_xlabel("Next Morning")
     axis.grid(True)
-    axis.plot(ave_xs, ave_ys, '.', label='Average User Data')
-    axis.plot(xs, ys, '.', label='Your Data')
-
+    axis.plot(ave_xs, ave_ys,'.',label='User Data')
+    axis.plot(xs, ys,'.',label='Your Data')
+    
     x_formatter = mpl_dates.DateFormatter("%Y-%m-%d")
     y_formatter = mpl_dates.DateFormatter("%H:%M")
     axis.xaxis.set_major_formatter(x_formatter)
@@ -355,16 +380,30 @@ def plot_bedtime():
 
 @app.route('/plot/wakeup')
 def plot_wakeup():
-    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(
-        numSamples)
-    ys = wakeups
+    dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples, country, state, gender, username)
+    
+    ys = [DT.datetime.strptime(time,"%H:%M") for time in wakeups]
+    ave_ys = [DT.datetime.strptime(time,"%H:%M") for time in ave_wakeups]
+    xs = [date.fromisoformat(ddate) for ddate in dates]
+    ave_xs = [date.fromisoformat(ddate) for ddate in ave_dates]
+    
     fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    axis.set_title("Wakeup")
-    axis.set_xlabel("Mornings")
+    axis = fig.add_subplot(111)
+    axis.set_title("Wakeup Time")
+    axis.set_xlabel("Morning")
     axis.grid(True)
-    xs = dates
-    axis.plot(xs, ys, 'o', color='black')
+    axis.plot(ave_xs, ave_ys,'.',label='User Data')
+    axis.plot(xs, ys,'.',label='Your Data')
+    
+    x_formatter = mpl_dates.DateFormatter("%Y-%m-%d")
+    y_formatter = mpl_dates.DateFormatter("%H:%M")
+    axis.xaxis.set_major_formatter(x_formatter)
+    axis.yaxis.set_major_formatter(y_formatter)
+    
+    axis.tick_params(labelrotation=45)
+    fig.tight_layout()
+    fig.legend(loc='upper left')
+    
     canvas = FigureCanvas(fig)
     output = io.BytesIO()
     canvas.print_png(output)
