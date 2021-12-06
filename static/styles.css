@@ -22,7 +22,7 @@
     margin: auto;
   }
 
-  .forecast {
+  .box {
     background-color: rgb(43, 43, 139);
     text-align: center;
     transition: all 0.2s ease-in-out 0s;
@@ -58,11 +58,32 @@
 
   .header {
     font-family: "Quicksand", sans-serif;
-    font-weight: 900;
+    font-weight: 700;
+    text-align: center;
     color:rgb(43, 43, 139);
   }
 
-  
+  .lightheader {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 900;
+    text-align: center;
+    color:#EDDCFC;
+  }
+
+  #bedtimeparagraph {
+    color:#EDDCFC;
+    font-family: "Quicksand", sans-serif;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  #copyright{
+    color:#EDDCFC;
+    font-family: "Quicksand", sans-serif;
+    text-align: center;
+    font-size: 13px;
+  }
+
   /*Idea from https://sharkcoder.com/visual/underline*/
   a::after {
     content: "";
@@ -98,17 +119,21 @@ nav .navbar-brand
     margin-left: -70px !important;  /* 50% of your logo width */
     display: block;
 }
-
 nav
 {
-    background-color: rgb(43, 43, 139);
-    /*background-image: linear-gradient(rgb(43, 43, 139), white);*/
+    /* background-color: rgb(43, 43, 139); */
+    background-image: linear-gradient(to right, rgb(43, 43, 139), #D19EF9); 
     padding-bottom: 5%;
 }
 
-.recentNews {
+.fadebackground {
   /* Via https://www.w3schools.com/css/css3_gradients.asp */
   background-image: linear-gradient(rgb(43, 43, 139), white);
+}
+
+.lavender {
+  /* Via https://www.w3schools.com/css/css3_gradients.asp */
+  background-color:#E1C7F6;
 }
 /* Via https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml */
 .recentNews .news-title {
@@ -199,4 +224,12 @@ img {
   display: inline-block;
   width: 40%;
   height: auto;
+}
+
+.button {
+  background-color: #bd81d6; 
+  border: none;
+  color: white;
+  border-radius: 6px;
+  padding: 14px 14px;
 }

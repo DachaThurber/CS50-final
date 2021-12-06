@@ -361,7 +361,29 @@
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" name="numSamples" placeholder="Number of Days" required value= {{numSamples}}>
         </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <label>Compare with your friend:</label>
+        <br><br>
+        <div>
+            <select id="users" name="userMenu"> 
+                <option value="nothing" selected="selected"> </option>
+                <option value="http://127.0.0.1:5000/findfriends"> Make new friends </option>
+                {% for value in usernames %}
+                    <option> {{value}} </option>
+                {% endfor %} 
+            </select>
+            <!-- Via https://www.youtube.com/watch?v=jFC91RVs4NE -->
+            <script type="text/javascript">
+                var url = document.getElementById('users');
+                url.onchange = function(){
+                    var userOption = this.options[this.selectedIndex];
+                    if (userOption.value == "http://127.0.0.1:5000/findfriends") {
+                        window.location.href = 'http://127.0.0.1:5000/findfriends';
+                    }
+                }
+            </script>
+        </div>
+        <br> <br>
+        <button class="button" type="submit">Submit</button>
     </form>
     <img src="/plot/bedtime" alt="Image Placeholder" width="49%">
     <img src="/plot/wakeup" alt="Image Placeholder" width="49%">
