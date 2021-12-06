@@ -135,7 +135,7 @@
 
             // Fetch data
             fetch(url)
-                .then(response = a > response.json())
+                .then(response => response.json())
                 .then(data => {
                     // Set innerHTMl tags to temperature, description, and location
                     console.log(data);
@@ -154,5 +154,4 @@
     }
     getWeather()
 </script>
-
 {% endblock %}

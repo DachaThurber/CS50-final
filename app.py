@@ -82,15 +82,11 @@ def home():
         val = report()
         return val
 
-# Not entirely sure GET and POST are both needed here
-
-
-@app.route("/wakeup", methods=["GET", "POST"])
+@app.route("/wakeup")
 @login_required
 def wakeup():
 
-    name = db.execute("SELECT username FROM users WHERE id=?",
-                      session["user_id"])
+    name = db.execute("SELECT username FROM users WHERE id=?", session["user_id"])
 
     # Pull last login
     last_login = db.execute(
@@ -98,7 +94,7 @@ def wakeup():
     last_login = last_login[0]["recent_login"]
 
     # Save today's date
-    today = DT.datetime.today().date()
+    today = dtdatetime.today().date()
 
     # If it is a different day then when you last logged in
     if str(last_login) != str(today):
@@ -129,8 +125,7 @@ def wakeup():
                    today, session["user_id"])
 
         # Pull quote and link from users table
-        both = db.execute(
-            "SELECT quote, link FROM users WHERE id=?", session["user_id"])
+        both = db.execute("SELECT quote, link FROM users WHERE id=?", session["user_id"])
         quote = both[0]["quote"]
         link = both[0]["link"]
 
