@@ -84,6 +84,13 @@
       color: #EDDCFC;
   }
   
+  #copyright {
+      color: #EDDCFC;
+      font-family: "Quicksand", sans-serif;
+      text-align: center;
+      font-size: 13px;
+  }
+  
   .paragraph {
       color: #EDDCFC;
       font-family: "Quicksand", sans-serif;
