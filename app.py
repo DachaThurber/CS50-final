@@ -9,16 +9,22 @@ from flask_session import Session
 from tempfile import mkdtemp
 from matplotlib import collections
 from datetime import datetime
+from matplotlib.ticker import Formatter
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.dates as mpl_dates
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
+from matplotlib import pyplot as plt
+from datetime import timedelta, date
+from datetime import datetime as dtdatetime
 plt.style.use('seaborn-whitegrid')
-import numpy
+from pylab import *
+import numpy as np
 import io
-import datetime
+import datetime as DT
 
 from helpers import apology, login_required, lookup, usd
 
@@ -218,17 +224,24 @@ def data():
         templateData = {
       		'numSamples'	: numSamples
 	    }
+        dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples)
+    
+        '''ys_hour = [DT.datetime.strptime(time, '%H:%M').hour for time in bedtimes]
+        ys_min = [DT.datetime.strptime(time, '%H:%M').minute for time in bedtimes]
+        ys_hour_min = [datetime.time(ys_hour[i], ys_min[i], 00) for i in range (len(ys_hour))]
+        ys = [DT.datetime.strptime(time,"%H:%M") for time in bedtimes]
+        return render_template('ffsuccess.html', username = ys)'''
         return render_template('data.html', **templateData) 
     else:
         return render_template("data.html")
 
 def getHistData(numSamples):
 
-    all_dates = db.execute("SELECT date FROM sleeplog")
+    '''all_dates = db.execute("SELECT date FROM sleeplog")
     for date in all_dates:
         null_dates = db.execute("SELECT date FROM sleeplog WHERE user_id IS NULL")
         if date not in null_dates:
-            db.execute("INSERT INTO sleeplog (date) VALUES (?)", date.get('date'))
+            db.execute("INSERT INTO sleeplog (date) VALUES (?)", date.get('date'))'''
 
     data = db.execute("SELECT * FROM sleeplog WHERE user_id = ? ORDER BY date DESC LIMIT "+str(numSamples), session["user_id"])
     dates = []
@@ -266,18 +279,29 @@ def maxRowsTable():
 @app.route('/plot/bedtime')
 def plot_bedtime():
     dates, bedtimes, wakeups, ratings, ave_dates, ave_bedtimes, ave_wakeups, ave_ratings = getHistData(numSamples)
-    ys = bedtimes
-    ave_ys = ave_bedtimes
+
+    ys = [DT.datetime.strptime(time,"%H:%M") for time in bedtimes]
+    ave_ys = [DT.datetime.strptime(time,"%H:%M") for time in ave_bedtimes]
+    xs = [date.fromisoformat(ddate) for ddate in dates]
+    ave_xs = [date.fromisoformat(ddate) for ddate in ave_dates]
+    
     fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
+    axis = fig.add_subplot(111)
     axis.set_title("Bedtime")
     axis.set_xlabel("Next Morning")
     axis.grid(True)
-    xs = dates
-    ave_xs = ave_dates
-    axis.scatter(ave_xs, ave_ys)
-    axis.scatter(xs, ys)
-
+    axis.plot(ave_xs, ave_ys,'.',label='Average User Data')
+    axis.plot(xs, ys,'.',label='Your Data')
+    
+    x_formatter = mpl_dates.DateFormatter("%Y-%m-%d")
+    y_formatter = mpl_dates.DateFormatter("%H:%M")
+    axis.xaxis.set_major_formatter(x_formatter)
+    axis.yaxis.set_major_formatter(y_formatter)
+    
+    axis.tick_params(labelrotation=45)
+    fig.tight_layout()
+    fig.legend(loc='upper left')
+    
     canvas = FigureCanvas(fig)
     output = io.BytesIO()
     canvas.print_png(output)

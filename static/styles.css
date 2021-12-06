@@ -197,4 +197,6 @@ nav
 
 img {
   display: inline-block;
+  width: 40%;
+  height: auto;
 }
