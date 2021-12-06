@@ -362,50 +362,7 @@
                     <option value="other">Other</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <input class="form-control mx-auto w-auto" name="numSamples" placeholder="Number of Days" required value= {{numSamples}}>
-            </div>
-        </div>
-<<<<<<< HEAD
-        <br>
-        <h1 class="header">Or, compare with your friend:</h1>
-        <br>
-        <div class="box">
-            <br>
-        <button class="button" type="submit">Submit</button>
-=======
->>>>>>> 47b8c077cd0e231d6c8e74aac3ce94b5188b7ed7
-    </form>
-    <br> <button class="button" type="submit">Submit</button> <br> <br>
-    <img src="/plot/bedtime" alt="Image Placeholder" width="49%">
-    <img src="/plot/wakeup" alt="Image Placeholder" width="49%">
-<<<<<<< HEAD
-    <form>
-        <label>Compare with your friend:</label>
-        <br><br>
-        <div>
-            <select id="users" name="userMenu"> 
-                <option value="nothing" selected="selected"> </option>
-                <option value="http://127.0.0.1:5000/findfriends"> Make new friends </option>
-                {% for value in usernames %}
-                    <option> {{value}} </option>
-                {% endfor %} 
-            </select>
-            <br> <br>
-            <!-- Via https://www.youtube.com/watch?v=jFC91RVs4NE -->
-            <script type="text/javascript">
-                var url = document.getElementById('users');
-                url.onchange = function(){
-                    var userOption = this.options[this.selectedIndex];
-                    if (userOption.value == "http://127.0.0.1:5000/findfriends") {
-                        window.location.href = 'http://127.0.0.1:5000/findfriends';
-=======
-    <br> <br>
-        <h1 class="header">Or, compare with your friend:</h1>
-        <br>
-    <div class="box">
-        <br>
-        <form>
+            <p class='paragraph'>or...</p>
             <div>
                 <select id="users" name="userMenu"> 
                     <option value="nothing" selected="selected"> </option>
@@ -423,14 +380,16 @@
                         if (userOption.value == "http://127.0.0.1:5000/findfriends") {
                             window.location.href = 'http://127.0.0.1:5000/findfriends';
                         }
->>>>>>> 47b8c077cd0e231d6c8e74aac3ce94b5188b7ed7
                     }
                 </script>
             </div>
-            <br> 
-        </form>
-    </div>
-    <br> <button class="button" type="submit">Submit</button> <br> <br>
+            <br>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" name="numSamples" placeholder="Number of Days" required value= {{numSamples}}>
+            </div>
+        </div>
+        <br> <button class="button" type="submit">Submit</button> <br> <br>
+    </form>
     <img src="/plot/bedtime" alt="Image Placeholder" width="49%">
     <img src="/plot/wakeup" alt="Image Placeholder" width="49%">
 </body>
