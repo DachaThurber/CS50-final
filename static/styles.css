@@ -32,6 +32,17 @@
     padding: 10px;
     text-align: center;
   }
+
+  .box2 {
+    background-color: #EDDCFC;
+    text-align: center;
+    transition: all 0.2s ease-in-out 0s;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    text-align: center;
+  }
   
   .nav-link {
     font-family: "Quicksand", sans-serif;
