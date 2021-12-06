@@ -1,40 +1,33 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block title %} report {% endblock %} {% block main %}
 
-{% block title %}
-    report
-{% endblock %}
-
-{% block main %}
-    <head>
-        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-                crossorigin="anonymous">
-    </head>
-    <form action="/report" method="post">
-        <div class="box">
-            <br>
-            <h3 id="location" class="lightheader">Insert sleep data:</h3>
-            <br>
-        </div>
-        <br> 
-        <div class="lavender"> 
-            <br>
-            <label> Today's Date:</label> <br>
-            <input id="date" name="date" type="date">
-            <br><br>
-            <label> Time you fell asleep last night:</label> <br>
-            <input id="bedtime" name="bedtime" type="time">
-            <br><br>
-            <label> Time you woke up this morning:</label> <br>
-            <input id="wakeup" name="wakeup" type="time">   
-            <br> <br>      
-        </div>
+<head>
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<form action="/report" method="post">
+    <div class="box">
+        <br>
+        <h3 id="location" class="lightheader">Insert sleep data:</h3>
+        <br>
+    </div>
+    <br>
+    <div class="lavender">
+        <br>
+        <label> Today's Date:</label> <br>
+        <input id="date" name="date" type="date" required>
         <br><br>
-        <div class="box">
-            <br>
-            <button class="button" type="submit">Submit</button>
-            <br> <br>
-        </div>
-    </form>
+        <label> Time you fell asleep last night:</label> <br>
+        <input id="bedtime" name="bedtime" type="time" required>
+        <br><br>
+        <label> Time you woke up this morning:</label> <br>
+        <input id="wakeup" name="wakeup" type="time" required>
+        <br> <br>
+    </div>
+    <br><br>
+    <div class="box">
+        <br>
+        <button class="button" type="submit">Submit</button>
+        <br> <br>
+    </div>
+</form>
 {% endblock %}

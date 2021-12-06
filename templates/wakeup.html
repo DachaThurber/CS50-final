@@ -1,10 +1,4 @@
-{% extends "layout.html" %}
-
-{% block title %}
-    Wakeup
-{% endblock %}
-
-{% block main %}
+{% extends "layout.html" %} {% block title %} Wakeup {% endblock %} {% block main %}
 <!-- Courtesy of https://enlight.nyc/projects/weather -->
 
 <head>
@@ -105,7 +99,6 @@
 </body>
 <!-- Courtesy of https://enlight.nyc/projects/weather -->
 <script>
-
     function getWeather() {
 
         // Sets each id in HTML to var
@@ -125,7 +118,7 @@
 
         function success(position) {
             console.log("success!! ")
-            // Save lat. and long.
+                // Save lat. and long.
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
 
@@ -142,7 +135,7 @@
 
             // Fetch data
             fetch(url)
-                .then(response => response.json())
+                .then(response = a > response.json())
                 .then(data => {
                     // Set innerHTMl tags to temperature, description, and location
                     console.log(data);

@@ -1,246 +1,264 @@
   a {
-    color: #aaddee;
+      color: #aaddee;
   }
   
   a:hover {
-    text-decoration: none;
+      text-decoration: none;
   }
-
+  
   .checked {
-    color: orange;
+      color: orange;
+  }
+  
+  .forecast-Text {
+      color: white;
+      font-family: "Quicksand", sans-serif;
+      margin: auto;
+  }
+  
+  .box {
+      background-color: rgb(43, 43, 139);
+      text-align: center;
+      transition: all 0.2s ease-in-out 0s;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      text-align: center;
+  }
+  
+  .box2 {
+      background-color: #EDDCFC;
+      text-align: center;
+      transition: all 0.2s ease-in-out 0s;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      text-align: center;
   }
   
   nav {
-    position: fixed;
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
-  }
-
-  .forecast-Text{
-    color: white;
-    font-family: "Quicksand", sans-serif;
-    margin: auto;
-  }
-
-  .box {
-    background-color: rgb(43, 43, 139);
-    text-align: center;
-    transition: all 0.2s ease-in-out 0s;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-    text-align: center;
-  }
-
-  .box2 {
-    background-color: #EDDCFC;
-    text-align: center;
-    transition: all 0.2s ease-in-out 0s;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-    text-align: center;
+      position: fixed;
+      top: 0;
+      /* Position the navbar at the top of the page */
+      width: 100%;
+      /* Full width */
+      height: 85px;
   }
   
   .nav-link {
-    font-family: "Quicksand", sans-serif;
-    margin-top: 3%;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #fff;
-    text-decoration: none;
-    display: inline-block;
-    padding: 15px 20px;
-    position: relative;
-  }
-
-  .letter-style {
-    font-family: "Quicksand", sans-serif;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #fff;
-    text-decoration: none;
-    display: inline-block;
-    padding: 15px 20px;
-    position: relative;
-  }
-
-  .header {
-    font-family: "Quicksand", sans-serif;
-    font-weight: 700;
-    text-align: center;
-    color:rgb(43, 43, 139);
-  }
-
-  .lightheader {
-    font-family: "Quicksand", sans-serif;
-    font-weight: 900;
-    text-align: center;
-    color:#EDDCFC;
-  }
-
-  #bedtimeparagraph {
-    color:#EDDCFC;
-    font-family: "Quicksand", sans-serif;
-    text-align: center;
-    font-size: 20px;
-  }
-
-  #copyright{
-    color:#EDDCFC;
-    font-family: "Quicksand", sans-serif;
-    text-align: center;
-    font-size: 13px;
-  }
-
-  /*Idea from https://sharkcoder.com/visual/underline*/
-  a::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    display: block;
-    background: none repeat scroll 0 0 transparent;
-    height: 2px;
-    width: 0;
-    background: #fff;
-    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+      font-family: "Quicksand", sans-serif;
+      margin-top: 3%;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      display: inline;
+      padding: 15px 20px;
+      position: relative;
   }
   
+  .letter-style {
+      font-family: "Quicksand", sans-serif;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+      padding: 15px 20px;
+      position: relative;
+  }
+  
+  .header {
+      font-family: "Quicksand", sans-serif;
+      font-weight: 700;
+      text-align: center;
+      color: rgb(43, 43, 139);
+  }
+  
+  .lightheader {
+      font-family: "Quicksand", sans-serif;
+      font-weight: 900;
+      text-align: center;
+      color: #EDDCFC;
+  }
+  
+  #bedtimeparagraph {
+      color: #EDDCFC;
+      font-family: "Quicksand", sans-serif;
+      text-align: center;
+      font-size: 20px;
+  }
+  
+  #copyright {
+      color: #EDDCFC;
+      font-family: "Quicksand", sans-serif;
+      text-align: center;
+      font-size: 13px;
+  }
   /*Idea from https://sharkcoder.com/visual/underline*/
-a:hover::after { 
-  width: 100%; 
-  left: 0; 
-}
-
-nav .navbar-brand
-{
-    font-size: xx-large;
-    font-family: "Chalkduster", fantasy;
-}
-
-.navbar {
-    position: relative;
-}
-
-.navbar-brand {
-    position: absolute;
-    left: 50%;
-    margin-left: -70px !important;  /* 50% of your logo width */
-    display: block;
-}
-nav
-{
-    background-image: linear-gradient(to right, rgb(43, 43, 139), #D19EF9); 
-    padding-bottom: 5%;
-}
-
-.fadebackground {
-  /* Via https://www.w3schools.com/css/css3_gradients.asp */
-  background-image: linear-gradient(rgb(43, 43, 139), white);
-}
-
-.lavender {
-  /* Via https://www.w3schools.com/css/css3_gradients.asp */
-  background-color:#E1C7F6;
-}
-/* Via https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml */
-.recentNews .news-title {
-  text-align:center;
-  padding-top:30px;
-  padding-bottom:30px;
-  font-family: 'nimbus-sans-condensed', sans-serif;
-  font-size:55px;
-  font-weight:bold;
-  color: #fff;
-}
-.recentNews .row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
-.recentNews .ct-blog {
-  margin-bottom: 30px;
-}
-.ct-blog .inner {
-  background-color: #FFF;
-  padding: 10px;
-  transition: all 0.2s ease-in-out 0s;
-  cursor: pointer;
-  height: 100%;
-}
-.ct-blog .inner:hover {
-  background-color: #e6e6e6;
-}
-.ct-blog .fauxcrop {
-  height: 180px;
-  overflow: hidden;
-}
-.ct-blog .fauxcrop img {
-  width: 100%;
-}
-.ct-blog-content {
-  display: table;
-  padding: 30px 0 28px;
-}
-.ct-blog-content .ct-blog-date {
-  border-right: 1px solid #95A5A6;
-  display: table-cell;
-  font-family: "Lato", sans-serif;
-  padding: 0px 18px 0px 15px;
-  text-align: center;
-}
-.ct-blog-content .ct-blog-date span {
-  font-size: 16px;
-  color: rgb(20, 117, 175);  
-  font-weight: 700;
-  display: block;
-  line-height: 1;
-}
-.ct-blog-content .ct-blog-date strong {
-  font-size: 25px;
-  color: rgb(20, 117, 175);  
-}
-.ct-blog-content .ct-blog-header {
-  color: #000;
-  display: table-cell;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
-  line-height: 1.1;
-  padding: 0 20px;
-  vertical-align: top;
-}
-.btn-news {
-  color: #333;
-  font-size: 14px;
-  font-weight: bold;
-  padding-bottom: 30px;
-  text-align: center;
-}
-.btn-news.btn-contests a {
-  color: #fff;
-  font-family: 'nimbus-sans-condensed', sans-serif;
-  font-size: 24px;
-  transition: all 0.2s ease-in-out 0s;
-}
-.btn-news.btn-contests a:hover {
-  color: #000;
-}
-
-img {
-  display: inline-block;
-  width: 40%;
-  height: auto;
-}
-
-.button {
-  background-color: #bd81d6; 
-  border: none;
-  color: white;
-  border-radius: 6px;
-  padding: 14px 14px;
-}
+  
+  a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      display: block;
+      background: none repeat scroll 0 0 transparent;
+      height: 2px;
+      width: 0;
+      background: #fff;
+      transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  }
+  /*Idea from https://sharkcoder.com/visual/underline*/
+  
+  a:hover::after {
+      width: 100%;
+      left: 0;
+  }
+  
+  nav .navbar-brand {
+      font-size: xx-large;
+      font-family: "Chalkduster", fantasy;
+  }
+  
+  .navbar {
+      position: relative;
+  }
+  
+  .navbar-brand {
+      position: absolute;
+      left: 50%;
+      margin-left: -70px !important;
+      /* 50% of your logo width */
+      display: block;
+  }
+  
+  nav {
+      background-image: linear-gradient(to right, rgb(43, 43, 139), #D19EF9);
+      padding-bottom: 5%;
+  }
+  
+  .fadebackground {
+      /* Via https://www.w3schools.com/css/css3_gradients.asp */
+      background-image: linear-gradient(rgb(43, 43, 139), white);
+  }
+  
+  .lavender {
+      /* Via https://www.w3schools.com/css/css3_gradients.asp */
+      background-color: #E1C7F6;
+  }
+  /* Via https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml */
+  
+  .recentNews .news-title {
+      text-align: center;
+      padding-top: 30px;
+      padding-bottom: 30px;
+      font-family: 'nimbus-sans-condensed', sans-serif;
+      font-size: 55px;
+      font-weight: bold;
+      color: #fff;
+  }
+  
+  .recentNews .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 30px;
+  }
+  
+  .recentNews .ct-blog {
+      margin-bottom: 30px;
+  }
+  
+  .ct-blog .inner {
+      background-color: #FFF;
+      padding: 10px;
+      transition: all 0.2s ease-in-out 0s;
+      cursor: pointer;
+      height: 100%;
+  }
+  
+  .ct-blog .inner:hover {
+      background-color: #e6e6e6;
+  }
+  
+  .ct-blog .fauxcrop {
+      height: 180px;
+      overflow: hidden;
+  }
+  
+  .ct-blog .fauxcrop img {
+      width: 100%;
+  }
+  
+  .ct-blog-content {
+      display: table;
+      padding: 30px 0 28px;
+  }
+  
+  .ct-blog-content .ct-blog-date {
+      border-right: 1px solid #95A5A6;
+      display: table-cell;
+      font-family: "Lato", sans-serif;
+      padding: 0px 18px 0px 15px;
+      text-align: center;
+  }
+  
+  .ct-blog-content .ct-blog-date span {
+      font-size: 16px;
+      color: rgb(20, 117, 175);
+      font-weight: 700;
+      display: block;
+      line-height: 1;
+  }
+  
+  .ct-blog-content .ct-blog-date strong {
+      font-size: 25px;
+      color: rgb(20, 117, 175);
+  }
+  
+  .ct-blog-content .ct-blog-header {
+      color: #000;
+      display: table-cell;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      line-height: 1.1;
+      padding: 0 20px;
+      vertical-align: top;
+  }
+  
+  .btn-news {
+      color: #333;
+      font-size: 14px;
+      font-weight: bold;
+      padding-bottom: 30px;
+      text-align: center;
+  }
+  
+  .btn-news.btn-contests a {
+      color: #fff;
+      font-family: 'nimbus-sans-condensed', sans-serif;
+      font-size: 24px;
+      transition: all 0.2s ease-in-out 0s;
+  }
+  
+  .btn-news.btn-contests a:hover {
+      color: #000;
+  }
+  
+  img {
+      display: inline-block;
+      width: 40%;
+      height: auto;
+  }
+  
+  .button {
+      background-color: #bd81d6;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      padding: 14px 14px;
+  }

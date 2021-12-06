@@ -1,16 +1,14 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block title %} ffsuccess {% endblock %} {% block main %}
 
-{% block title %}
-    ffsuccess
-{% endblock %}
-
-{% block main %}
-<head>
-    <h1> Success! </h1>
-</head>
-<body>
-    <h2> You now follow {{ username }} </h2>
-    <a href="http://127.0.0.1:5000/findfriends"> Add more friends </a>
+<body style="background-color:#EDDCFC">
+    <h1 class="header"> Success! </h1>
+    <br>
+    <div class="box">
+        <br>
+        <h2 style="color:#EDDCFC"> You now follow {{ username }} </h2>
+        <a href="http://127.0.0.1:5000/findfriends" style="color:#EDDCFC"> Add more friends </a>
+        <br> <br>
+    </div>
 </body>
 
 {% endblock %}
