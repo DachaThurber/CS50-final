@@ -363,12 +363,24 @@
         </div>
         <label>Compare with your friend:</label>
         <br><br>
-        <div class="dropdown">
-            <select> 
+        <div>
+            <select id="users" name="userMenu"> 
+                <option value="nothing" selected="selected"> </option>
+                <option value="http://127.0.0.1:5000/findfriends"> Make new friends </option>
                 {% for value in usernames %}
                     <option> {{value}} </option>
-                {% endfor %}
+                {% endfor %} 
             </select>
+            <!-- Via https://www.youtube.com/watch?v=jFC91RVs4NE -->
+            <script type="text/javascript">
+                var url = document.getElementById('users');
+                url.onchange = function(){
+                    var userOption = this.options[this.selectedIndex];
+                    if (userOption.value == "http://127.0.0.1:5000/findfriends") {
+                        window.location.href = 'http://127.0.0.1:5000/findfriends';
+                    }
+                }
+            </script>
         </div>
         <br> <br>
         <button class="button" type="submit">Submit</button>

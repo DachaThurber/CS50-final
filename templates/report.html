@@ -13,10 +13,13 @@
     </head>
     <form action="/report" method="post">
         <div class="box">
-            <h3 id="location" class="forecast-Text">Insert sleep data:</h3>
+            <br>
+            <h3 id="location" class="lightheader">Insert sleep data:</h3>
+            <br>
         </div>
         <br> 
-        <div class="lavender")> 
+        <div class="lavender"> 
+            <br>
             <label> Today's Date:</label> <br>
             <input id="date" name="date" type="date">
             <br><br>
@@ -24,11 +27,14 @@
             <input id="bedtime" name="bedtime" type="time">
             <br><br>
             <label> Time you woke up this morning:</label> <br>
-            <input id="wakeup" name="wakeup" type="time">         
+            <input id="wakeup" name="wakeup" type="time">   
+            <br> <br>      
         </div>
         <br><br>
         <div class="box">
+            <br>
             <button class="button" type="submit">Submit</button>
+            <br> <br>
         </div>
     </form>
 {% endblock %}

@@ -10,16 +10,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
-    <h1 class="header"> Good evening, {{ name }} </h1>
+    <h1 class="lightheader"> Good evening, {{ name }} </h1>
     <br>
 </head>
-<body>
-    <!--Courtesy of https://www.solodev.com/blog/web-design/adding-recent-news-boxes-to-your-website.stml-->
-    <section class="fadebackground">
+<!-- Photo embedding by https://www.labnol.org/embed/google/photos/?_ga=2.73081940.652589554.1506369127-416085520.1506369127-->
+<!-- Courtesy of https://www.bing.com/images/search?view=detailV2&ccid=ZUsxSwgn&id=D40C28012BF5B35241DFDE754362181721D6FE93&thid=OIP.ZUsxSwgn02tok98GLd6SqgHaEo&mediaurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.654b314b0827d36b6893df062dde92aa%3frik%3dk%252f7WIRcYYkN13g%26riu%3dhttp%253a%252f%252fwallpapercave.com%252fwp%252fkKsNXp9.jpg%26ehk%3d5XGQbHoGqI%252fXR4pmPey0WNYKRWAWKDbOYT10HrGpkLg%253d%26risl%3d%26pid%3dImgRaw%26r%3d0&exph=1600&expw=2560&q=starry+night+background&simid=608010774789647635&FORM=IRPRST&ck=4369BD5B72933CD5669E871544898CFA&selectedIndex=0&ajaxhist=0&ajaxserp=0-->
+<body style="background-image: url('https://lh3.googleusercontent.com/gpSAgjiQJbITpedSU9I267BeGQ4G_2Kush4WPHGmqyi7TcQq9wG1gEe5j8CiDRbQ1WPXBuot0dVE9deyaMshEGQTqhVH0-2Bh7sBy5rv3MoSHV17WTKnSekw7bHUhD8tv5mUZV2dNQ=w2400?source=screenshot.guru')">
+    <div> 
+        <!--Courtesy of https://giphy.com/gifs/animation-fun-loop-l3q2ICbdSmDqnlxC0 -->
+        <a href="https://lh3.googleusercontent.com/hRRQPsGK1v8Kh7o68eDNK_0KXuPj4lqlYpRgT6rIF-vQA2CODodiP6NyUXRR3-tucKb9xrzQ_KB-6sZ6vtJ8skPf61rclvMRflJYhQpq7_S8Ot31QU_L1eRKyBMM6j3JE8yeA78g6Q=w2400?source=screenshot.guru"> <img class="center" src="https://lh3.googleusercontent.com/hRRQPsGK1v8Kh7o68eDNK_0KXuPj4lqlYpRgT6rIF-vQA2CODodiP6NyUXRR3-tucKb9xrzQ_KB-6sZ6vtJ8skPf61rclvMRflJYhQpq7_S8Ot31QU_L1eRKyBMM6j3JE8yeA78g6Q=w400-h300-p-k" /> </a>
+    </div>
+    <div>
         <br> <br>
-        <iframe src="https://www.google.com/" style="height:200px;width:300px;" title="Iframe Example"></iframe>
-        <br> <br>
-    </section>
+        <p id="bedtimeparagraph">
+            It is time to begin unwinding for bed. We recommend a cup of caffeine free tea and minimal screen time for the next 30-60 minutes.
+        </p>
+        <p id="copyright"> <small> Images by @artemispavlidou and www.wallpaperflare.com</small></p>
+    </div>  
 </body>
+
 
 {% endblock %}

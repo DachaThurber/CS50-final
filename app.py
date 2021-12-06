@@ -57,18 +57,22 @@ def after_request(response):
 def home():
     
     # Via https://www.codegrepper.com/code-examples/python/get+current+hour+python
-    current_time = datetime.datetime.now()
-    change = datetime.time(12, 00, 0)
+    current_time = (datetime.datetime.now()).hour
+    eight = (datetime.time(20, 00, 0)).hour
+    noon = (datetime.time(12, 00, 0)).hour
+    four = (datetime.time(4, 00, 0)).hour
 
-    # If past noon, show bedtime page
-    if current_time.hour > change.hour:
-    
+    # If past 8pm and before 4, show bedtime page
+    if current_time >= eight or current_time <= four:
         val = bedtime()
         return val
-    
-    # If before noon, show wakeup page
-    else:
+    # If between four and noon, show wakeup page
+    elif current_time <= noon and current_time >= four:
         val = wakeup()
+        return val
+    # Any other time, redirect to report page
+    else:
+        val = report()
         return val
 
 # Not entirely sure GET and POST are both needed here
@@ -203,6 +207,8 @@ global numSamples
 @app.route("/data", methods=["GET", "POST"])
 def data():
 
+    bool = 1 
+
     if request.method == "POST":
         global numSamples
         numSamples = maxRowsTable()
@@ -234,8 +240,12 @@ def data():
             faz = foo[0]["username"]
             usernames.append(faz)
 
+        # If there are no usernames, set boolean
+        if not usernames:
+            bool = 0
+
         # Pass new dict into render template
-        return render_template("data.html", usernames=usernames)
+        return render_template("data.html", usernames=usernames, check=bool)
 
 def getHistData(numSamples):
 
