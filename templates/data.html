@@ -2,7 +2,7 @@
 
 <body>
     <form action="/data" method="post">
-        <h1 class="header">Compare your data to average users with these filters:</h1>
+        <h1 class="header">Compare your data to users with these filters:</h1>
         <br>
         <div class="box">
             <br>
@@ -366,7 +366,7 @@
             <p class='paragraph'>or...</p>
             <div>
                 <select id="users" name="userMenu">
-                    <option value="nothing" selected="selected"> </option>
+                    <option value="nothing" selected="selected"></option>
                     <option value="http://127.0.0.1:5000/findfriends" required> Make new friends </option>
                     {% for value in usernames %}
                     <option> {{value}} </option>
@@ -386,7 +386,7 @@
             </div>
             <br>
             <div class="mb-3">
-                <input class="form-control mx-auto w-auto" name="numSamples" placeholder="Number of Days" required value={ {numSamples}}>
+                <input class="form-control mx-auto w-auto" name="numSamples" placeholder="Number of Days" required value={{numSamples}}>
             </div>
         </div>
         <br> <button class="button" type="submit">Submit</button> <br> <br>

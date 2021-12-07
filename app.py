@@ -1,3 +1,5 @@
+# Website framework from CS50 finance
+
 from helpers import apology, login_required, lookup, usd
 import datetime as DT
 import io
