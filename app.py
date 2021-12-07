@@ -1,4 +1,10 @@
+<<<<<<< HEAD
+# Website framework from CS50 finance
+
+from helpers import apology, login_required, lookup, usd
+=======
 from helpers import apology, login_required
+>>>>>>> 2f600db39a17376427c83fe5a028ed263c860eb7
 import datetime as DT
 import io
 from pylab import *

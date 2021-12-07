@@ -2,7 +2,7 @@
 
 <body>
     <form action="/data" method="post">
-        <h1 class="header">Compare your data to average users with these filters:</h1>
+        <h1 class="header">Compare your data to users with these filters:</h1>
         <br>
         <div class="box">
             <br>
@@ -366,7 +366,7 @@
             <p class='paragraph'>or compare with friends...</p>
             <div>
                 <select id="users" name="userMenu">
-                    <option value="nothing" selected="selected"> </option>
+                    <option value="nothing" selected="selected"></option>
                     <option value="http://127.0.0.1:5000/findfriends" required> Make new friends </option>
                     {% for value in usernames %}
                     <option> {{value}} </option>
