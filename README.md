@@ -1,25 +1,45 @@
-Sofia Giannuzzi and Dacha Thurber Final Project for CS50, fall 2021
- 
+**Sofia Giannuzzi and Dacha Thurber Final Project for CS50, fall 2021**
+
+~
+
 Before running, run the following commands to install necessary packages:
+ 
  pip3 install cs50
+ 
  pip3 install Flask
+ 
  pip3 install Flask-Session
+ 
  pip3 install matplotlib
  
+~
+
 Also ensure you have the following installed on your machine:
-  python3
-  sqlite3
-  NodeJS
+
+python3
+  
+sqlite3
+  
+NodeJS
+
+~
 
 To run, copy all files into a directory.  Within that directory run the command line commands:
-  % export FLASK_APP=app
-  % flask run
+
+ % export FLASK_APP=app
+  
+ % flask run
+  
+~
 
 This will launch a flask server at a given link printed to the terminal:
   INFO:  * Running on YOUR_LINK (Press CTRL+C to quit)
 
 Follow the link in a browser to view the Snoozer website.
 
+~
+
+~
 
 At first, you will be brought to a standard login page with an option to register if you have yet to make an account.  Once you have registered and logged in, you will be brought to the main website.
 
